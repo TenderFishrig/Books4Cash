@@ -70,7 +70,7 @@ session_start();
                     // Connect to the database
                     try
                     {
-                        $conn = new PDO('mysql:host=localhost;dbname=books4cash', 'root', '');
+                        $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
                     }
                     catch (PDOException $exception) 
                     {
@@ -80,13 +80,13 @@ session_start();
                     $username = $_POST['username'];
                     $password = $_POST['password'];
                     // Check if such username does not exist.
-                    $query = "SELECT * FROM user WHERE username = :username";
+                    $query = "SELECT * FROM whwp_User WHERE user_email = :username";
                     $prepared_statement = $conn -> prepare($query);
                     $prepared_statement -> bindValue(':username', $username);
                     $prepared_statement -> execute();
                     if ($prepared_statement -> rowCount() > 0)
                     {
-                        echo "This username is already taken.";
+                        echo "Email already in use.";
                         //header( "refresh:6;url=login.php" );
                     }
                     else
@@ -94,13 +94,14 @@ session_start();
                         //$salt = get_salt();
                         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                         // Insert these values into a database.
-                        $query = "INSERT INTO user (username, password) VALUES (:username, :hashed_password)";
+                        $query = "INSERT INTO whwp_User (user_email, user_password, user_ismoderator) VALUES (:username, :hashed_password, 0)";
                         $prep_stmt = $conn -> prepare($query);
                         $prep_stmt -> bindValue(':username', $username);
                         $prep_stmt -> bindValue(':hashed_password', $hashed_password);
                         //$prep_stmt -> bindValue(':salt', $salt);
                         $prep_stmt -> execute();
                         // Give the user some feedback
+                        echo($prep_stmt->errorInfo()[2]);
                         if ($prep_stmt -> rowCount() > 0)
                         {
                             echo "Congratulations! You have registered on our website!";

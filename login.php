@@ -57,7 +57,7 @@ session_start();
                     // Connect to the database
                     try
                     {
-                        $conn = new PDO('mysql:host=localhost;dbname=books4cash', 'root', '');
+                        $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
                     }
                     catch (PDOException $exception) 
                     {
@@ -65,18 +65,18 @@ session_start();
                     }
                     $username = $_POST['username'];
                     $password = $_POST['password'];
-                    $query = "SELECT * FROM user WHERE username = :username";
+                    $query = "SELECT * FROM whwp_User WHERE user_email = :username";
                     $prepared_statement = $conn -> prepare($query);
                     $prepared_statement -> bindValue(':username', $username);
                     $prepared_statement -> execute();
                     if($user = $prepared_statement -> fetch(PDO::FETCH_OBJ))
                     {
-                        if (password_verify($password,$user->password))//(crypt($password, $user -> salt) == $user -> password)
+                        if (password_verify($password,$user->user_password))//(crypt($password, $user -> salt) == $user -> password)
                         {
-                            if(password_needs_rehash($user->password, PASSWORD_DEFAULT))
+                            if(password_needs_rehash($user->user_password, PASSWORD_DEFAULT))
                             {
                                 $new_hash=password_hash($password, PASSWORD_DEFAULT);
-                                $query = "UPDATE user SET password=(:hashed_password) WHERE username=(:username)";
+                                $query = "UPDATE whwp_User SET user_password=(:hashed_password) WHERE user_email=(:username)";
                                 $prep_stmt = $conn -> prepare($query);
                                 $prep_stmt -> bindValue(':hashed_password', $new_hash);
                                 $prep_stmt -> bindValue(':username',$user->username);
@@ -85,7 +85,7 @@ session_start();
                             }
                             echo "Congratulations! You have logged in on our website!";
                             $_SESSION['user_id'] = $user -> user_id;
-                            $_SESSION['username'] = $user -> username;
+                            $_SESSION['username'] = $user -> user_email;
                             header( "refresh:3;url=index.php" );
                         }
                         else

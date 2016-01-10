@@ -49,7 +49,7 @@ session_start();
                     // Establishing a connection to the database
                     try
                     {
-                        $conn = new PDO('mysql:host=localhost;dbname=books4cash', 'root', '');
+                        $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
                     }
                     catch (PDOException $exception) 
                     {
@@ -64,20 +64,20 @@ session_start();
                         $user_id = $_SESSION['user_id'];
                     }
                     
-                    $query = "SELECT * FROM ad, ad_description, user "
-                            . "WHERE ad.advert_id = ad_description.advert_id "
-                            . "AND ad.advert_id = :advert_id "
-                            . "AND ad.user_id = user.user_id";
+                    $query = "SELECT * FROM whwp_Advert, whwp_User "
+                            . "WHERE whwp_Advert.advert_id = :advert_id "
+                            . "AND whwp_User.user_id = whwp_Advert.advert_owner";
                     $prepared_statement = $conn -> prepare($query);
                     $prepared_statement -> bindValue(':advert_id', $advert_id);
                     $prepared_statement -> execute();
                     $resultset = $prepared_statement -> fetch(PDO::FETCH_OBJ);
-                    $price = $resultset -> price;
-                    $title = $resultset -> title;
-                    $image = $resultset -> image;
-                    $user = $resultset -> user_id;
-                    $username = $resultset -> username;
-                    $description = $resultset -> description;
+                    $price = $resultset -> advert_price;
+                    $title = $resultset -> advert_bookname;
+                    $image = "";/////$resultset -> image;
+                    $author = $resultset -> advert_bookauthor;
+                    $user = $resultset -> advert_owner;
+                    $username = $resultset -> user_firstname;
+                    //$description = $resultset -> description;
                     if ($image !== "")
                     {
                         echo "<img src=".$image." alt=".$title." title=".$title."<br/>";
@@ -88,7 +88,8 @@ session_start();
                     }
                     echo "Price: " . $price . "<br/>";
                     echo "Title: " . $title . "<br/>";
-                    echo "Description: " . $description . "<br/>";
+                    echo "Author: " . $author . "<br/>";
+                   // echo "Description: " . $description . "<br/>";
                     echo "Posted by: <a href='user.php?user_id=$user'>" . $username . "</a><br/>";
                     echo "<hr/>";
                 ?>
@@ -112,13 +113,13 @@ session_start();
                             if(!empty($_POST['comment']))
                             {
                                 $comment = $_POST['comment'];
-                                $query3 = "INSERT INTO ad_comment (advert_id, user_id, comment, date_time) "
-                                        . "VALUES (:advert_id, :user_id, :comment, :date_time)";
+                                $query3 = "INSERT INTO whwp_Comment ( comment_advert, comment_author, comment_contents) "
+                                        . "VALUES (:advert_id, :user_id, :comment)";
                                     $prepared_statement3 = $conn -> prepare($query3);
                                     $prepared_statement3 -> bindValue(':advert_id', $advert_id);
                                     $prepared_statement3 -> bindValue(':user_id', $user_id);
                                     $prepared_statement3 -> bindValue(':comment', $comment);
-                                    $prepared_statement3 -> bindValue(':date_time', $date_time);
+                                    //$prepared_statement3 -> bindValue(':date_time', $date_time);
                                     $prepared_statement3 -> execute();
                                     if ($prepared_statement3 -> rowCount() > 0)
                                     {
@@ -143,17 +144,17 @@ session_start();
                     }
                     echo "<hr/><br/>";
                     
-                    $query2 = "SELECT ac.*, user.username FROM user, ad_comment AS ac WHERE ac.advert_id = :advert_id "
-                            . "AND user.user_id = ac.user_id ORDER BY date_time";
+                    $query2 = "SELECT ac.*, whwp_User.user_firstname FROM whwp_User, whwp_Comment AS ac WHERE ac.comment_advert = :advert_id "
+                            . "AND whwp_User.user_id = ac.comment_author";
                     $prepared_statement2 = $conn -> prepare($query2);
                     $prepared_statement2 -> bindValue(':advert_id', $advert_id);
                     $prepared_statement2 -> execute();
                     while ($comment = $prepared_statement2 -> fetch(PDO::FETCH_OBJ))
                     {
-                        $timePosted = $comment -> date_time;
-                        $username = $comment -> username;
-                        $comm = $comment -> comment;
-                        echo $timePosted . "<br/>";
+                        //$timePosted = $comment -> date_time;
+                        $username = $comment -> user_firstname;
+                        $comm = $comment -> comment_contents;
+                        //echo $timePosted . "<br/>";
                         echo $username . "<br/>";
                         echo $comm . "<br/>";
                         echo "<hr/>";

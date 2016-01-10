@@ -49,7 +49,7 @@ session_start();
                     // Establishing a connection to the database
                     try
                     {
-                        $conn = new PDO('mysql:host=localhost;dbname=books4cash', 'root', '');
+                        $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
                     }
                     catch (PDOException $exception) 
                     {
@@ -60,12 +60,12 @@ session_start();
                         // Get the ID of which user's page to display
                         $user_id = $_GET['user_id'];
                         // Run query to get information about the user.
-                        $query = "SELECT * FROM user WHERE user_id = :user_id";
+                        $query = "SELECT * FROM whwp_User WHERE user_id = :user_id";
                         $prepared_statement = $conn -> prepare($query);
                         $prepared_statement -> bindValue(':user_id', $user_id);
                         $prepared_statement -> execute();
                         $user = $prepared_statement -> fetch(PDO::FETCH_OBJ);
-                        $username = $user -> username;
+                        $username = $user -> user_firstname;
                         echo "The page of " . $username;
                         // Set the target as a private message receiver
                         $_SESSION['target_id'] = $user_id;
@@ -75,7 +75,7 @@ session_start();
                             echo "<a href='send_message.php'><img src='images/pm.png' id='pm' alt='Private Message' title='Private Message'/></a>";
                         }
                         // Query to get all the ads from the user, whose page is accessed.
-                        $query2 = "SELECT * FROM ad WHERE user_id = :user_id";
+                        $query2 = "SELECT * FROM whwp_Advert WHERE advert_owner = :user_id";
                         $prepared_statement2 = $conn -> prepare($query2);
                         $prepared_statement2 -> bindValue(':user_id', $user_id);
                         $prepared_statement2 -> execute();
@@ -90,9 +90,9 @@ session_start();
                             while ($ad = $prepared_statement2 -> fetch(PDO::FETCH_OBJ))
                             {
                                 $advert_id = $ad -> advert_id;
-                                $price = $ad -> price;
-                                $title = $ad -> title;
-                                echo "<p><a href ='showAdvert?advert_id=$advert_id'>" . $title . " " . $price . "</a></p>";
+                                $price = $ad -> advert_price;
+                                $title = $ad -> advert_bookname;
+                                echo "<p><a href ='showAdvert.php?advert_id=$advert_id'>" . $title . " " . $price . "</a></p>";
 
                             }
                         }

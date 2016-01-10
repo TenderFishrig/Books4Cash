@@ -49,7 +49,7 @@ session_start();
                     // Establishing a connection to the database
                     try
                     {
-                        $conn = new PDO('mysql:host=localhost;dbname=books4cash', 'root', '');
+                        $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
                     }
                     catch (PDOException $exception) 
                     {
@@ -64,10 +64,10 @@ session_start();
                         if(!empty($search_term))
                         {
                             // Run the query.
-                            $query = "SELECT DISTINCT ad.* FROM ad, ad_tag, tag "
-                                . "WHERE tag.tag LIKE :search_string " 
-                                . "AND tag.tag_id = ad_tag.tag_id " 
-                                . "AND ad_tag.advert_id = ad.advert_id";
+                            $query = "SELECT DISTINCT whwp_Advert.* FROM whwp_Advert, whwp_AdTag, whwp_Tag "
+                                . "WHERE whwp_Tag.tag_description LIKE :search_string "
+                                . "AND whwp_Tag.tag_id = whwp_AdTag.adtag_tag "
+                                . "AND whwp_AdTag.adtag_advert = whwp_Advert.advert_id";
                                 
                             $prepared_statement = $conn -> prepare($query);
                             $prepared_statement -> bindValue(':search_string', $search_string);
@@ -101,26 +101,25 @@ session_start();
 
                             // How many results per one page
                             $pageLimit = 10;
-                            
-                            $query2 = "SELECT DISTINCT ad.* FROM ad, ad_tag, tag "
-                                . "WHERE tag.tag LIKE :search_string " 
-                                . "AND tag.tag_id = ad_tag.tag_id " 
-                                . "AND ad_tag.advert_id = ad.advert_id "
-                                . "ORDER BY ad.advert_id "   
+                            //Todo: inefficent we already have all the rows from previous query
+                            $query2 = "SELECT DISTINCT whwp_Advert.* FROM whwp_Advert, whwp_AdTag, whwp_Tag "
+                                . "WHERE whwp_Tag.tag_description LIKE :search_string "
+                                . "AND whwp_Tag.tag_id = whwp_AdTag.adtag_tag "
+                                . "AND whwp_AdTag.adtag_advert = whwp_Advert.advert_id "
+                                . "ORDER BY whwp_Advert.advert_id "
                                 . "LIMIT $start_from, $pageLimit";
-                                
+
                             $prepared_statement2 = $conn -> prepare($query2);
                             $prepared_statement2 -> bindValue(':search_string', $search_string);
                             $prepared_statement2 -> execute();
-                            
                             while ($advert = $prepared_statement2 -> fetch(PDO::FETCH_OBJ))
                             {
                                 echo "<p>";
                                 echo "<a href='showAdvert.php?advert_id="
                                     . $advert -> advert_id."'>";
-                                echo $advert -> title;
+                                echo $advert -> advert_bookname;
                                 echo "</a>";
-                                echo " " . $advert -> price;
+                                echo " " . $advert -> advert_price;
                                 echo "</p>";
                             }
                             // Determining how many pages will be needed and outputting them.

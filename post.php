@@ -53,9 +53,9 @@ session_start();
                         // Connect to the database
                         try
                         {
-                            $conn = new PDO('mysql:host=localhost;dbname=books4cash', 'root', '');
+                            $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
                         }
-                        catch (PDOException $exception) 
+                        catch (PDOException $exception)
                         {
                             echo "Oh no, there was a problem" . $exception->getMessage();
                         }
@@ -101,9 +101,12 @@ session_start();
                                     {
                                         $file = $_FILES['image']['name'];
                                         $file_tmp = $_FILES['image']['tmp_name'];
-                                        $image = "C:/xampp/htdocs/Books4cash/itemPhotos/$file"; // Folder to move the file.
+                                        $image = "/web/stud/projects/201516/wehopewepass/itemPhotos/$file"; // Folder to move the file.
+                                        chmod($file_tmp,0777);
+                                        //Todo: fix file upload
                                         move_uploaded_file($file_tmp, $image); // Move the uploaded file to the desired folder
-                                        $image = substr($image, 27);
+                                        $image = substr($image, 11);
+                                        echo $image;
                                     }
                                     else
                                     {
@@ -111,7 +114,7 @@ session_start();
                                     }
 
                                     // Get user, who is logged in and posting ad, id
-                                    $query = "SELECT user_id FROM user WHERE username = :username";
+                                    $query = "SELECT user_id FROM whwp_User WHERE user_email = :username";
                                     $prepared_statement = $conn -> prepare($query);
                                     $prepared_statement -> bindValue(':username', $username);
                                     $prepared_statement -> execute();
@@ -119,29 +122,50 @@ session_start();
                                     $user_id = $resultset -> user_id;
 
                                     // Insert some data to the database.
-                                    $query2 = "INSERT INTO ad (user_id, price, title, image) "
-                                    . "VALUES (:user_id, :price, :title, :image)";
+//                                    $query2 = "INSERT INTO whwp_advert (advert_owner, advert_price, advert_bookname, image) "
+//                                    . "VALUES (:user_id, :price, :title, :image)";
+                                    $query2 = "INSERT INTO whwp_Advert (advert_owner, advert_price, advert_bookname, advert_date) "
+                                    . "VALUES (:user_id, :price, :title, :date)";
                                     $prepared_statement2 = $conn -> prepare($query2);
                                     $prepared_statement2 -> bindValue(':user_id', $user_id);
                                     $prepared_statement2 -> bindValue(':price', $price);
                                     $prepared_statement2 -> bindValue(':title', $title);
-                                    $prepared_statement2 -> bindValue(':image', $image);
+                                    $prepared_statement2 -> bindValue(':date', gmdate('Y-m-d'));
+//                                    $prepared_statement2 -> bindValue(':image', $image);
                                     $prepared_statement2 -> execute();
 
                                     // Get the auto generated advert_id.
-                                    $query3 = "SELECT advert_id FROM ad ORDER BY advert_id DESC LIMIT 1";
+//                                    $query3 = "SELECT advert_id FROM whwp_advert ORDER BY advert_id DESC LIMIT 1";
+//                                    $prepared_statement3 = $conn -> prepare($query3);
+//                                    $prepared_statement3 -> execute();
+//                                    $resultset = $prepared_statement3 -> fetch(PDO::FETCH_OBJ);
+//                                    $advert_id = $resultset -> advert_id;
+                                    $advert_id=$conn->lastInsertId();
+
+                                    // Insert image data into table
+                                    $query3 = "INSERT INTO whp_Image (image_location) "
+                                        . "VALUES (:image)";
                                     $prepared_statement3 = $conn -> prepare($query3);
-                                    $prepared_statement3 -> execute();
-                                    $resultset = $prepared_statement3 -> fetch(PDO::FETCH_OBJ);
-                                    $advert_id = $resultset -> advert_id;
+                                    $prepared_statement3 -> bindValue(':image', $image);
+                                    $prepared_statement3->execute();
+                                    $image_id=$conn->lastInsertId();
+
+                                    //Create image-advert link
+                                    $query3="INSERT INTO whp_AdImage (,adimage_advert,adimage_image) "
+                                        . "VALUES (:advert,:image)";
+                                    $prepared_statement3 = $conn -> prepare($query3);
+                                    $prepared_statement3->bindValue(':advert',$advert_id);
+                                    $prepared_statement3 -> bindValue(':image', $image_id);
+                                    $prepared_statement3->execute();
 
                                     // Insert data to the description table.
-                                    $query4 = "INSERT INTO ad_description (advert_id, description) "
-                                              . "VALUES (:advert_id, :description)";
-                                    $prepared_statement4 = $conn -> prepare($query4);
-                                    $prepared_statement4 -> bindValue(':advert_id', $advert_id);
-                                    $prepared_statement4 -> bindValue(':description', $description);
-                                    $prepared_statement4 -> execute();
+                                    //Todo: add field to database
+//                                    $query4 = "INSERT INTO ad_description (advert_id, description) "
+//                                              . "VALUES (:advert_id, :description)";
+//                                    $prepared_statement4 = $conn -> prepare($query4);
+//                                    $prepared_statement4 -> bindValue(':advert_id', $advert_id);
+//                                    $prepared_statement4 -> bindValue(':description', $description);
+//                                    $prepared_statement4 -> execute();
                                     
                                     // Create array and store all the tags in it.
                                     $tags = array();
@@ -172,7 +196,7 @@ session_start();
                                     $tagsToAdd = array();
                                     $tagIdsStored = array();
                                     // Query to check if such tag exists.
-                                    $query5 = "SELECT tag_id FROM tag WHERE tag = :tag";
+                                    $query5 = "SELECT tag_id FROM whwp_Tag WHERE tag_description = :tag";
                                     $prepared_statement5 = $conn -> prepare($query5);
                                     $prepared_statement5 -> bindParam(':tag', $tag);
                                     for ($i = 0; $i < $numberOfTags; $i++)
@@ -193,27 +217,27 @@ session_start();
                                     
                                     // How many tags should be added
                                     $numberOfTagsToAdd = count($tagsToAdd);
-                                    $query6 = "INSERT INTO tag (tag) VALUES (:tag)";  
+                                    $query6 = "INSERT INTO whwp_Tag (tag_description) VALUES (:tag)";
                                     $prepared_statement6 = $conn -> prepare($query6);
                                     for ($i = 0; $i < $numberOfTagsToAdd; $i++)
                                     {
                                         $prepared_statement6 -> bindValue(':tag', $tagsToAdd[0]);
                                         $prepared_statement6 -> execute();
                                         array_shift ($tagsToAdd);
+                                        array_push($tagIdsStored, $conn->lastInsertId());
                                     }
-                                    
-                                    $query7 = "SELECT tag_id FROM tag ORDER BY tag_id DESC LIMIT :numberOfTagsToAdd";
-                                    $prepared_statement7 = $conn -> prepare($query7);
-                                    $prepared_statement7 -> bindValue(':numberOfTagsToAdd', (int)$numberOfTagsToAdd, PDO::PARAM_INT);
-                                    $prepared_statement7 -> execute();
-                                    while ($tagset = $prepared_statement7 -> fetch(PDO::FETCH_OBJ))
-                                    {
-                                        $tagId = $tagset -> tag_id;
-                                        array_push($tagIdsStored, $tagId);
-                                    }
+//                                    $query7 = "SELECT tag_id FROM whwp_Tag ORDER BY tag_id DESC LIMIT :numberOfTagsToAdd";
+//                                    $prepared_statement7 = $conn -> prepare($query7);
+//                                    $prepared_statement7 -> bindValue(':numberOfTagsToAdd', (int)$numberOfTagsToAdd, PDO::PARAM_INT);
+//                                    $prepared_statement7 -> execute();
+//                                    while ($tagset = $prepared_statement7 -> fetch(PDO::FETCH_OBJ))
+//                                    {
+//                                        $tagId = $tagset -> tag_id;
+//                                        array_push($tagIdsStored, $tagId);
+//                                    }
                                     
                                     //$tag_id = "";    
-                                    $query8 = "INSERT INTO ad_tag (advert_id, tag_id) "
+                                    $query8 = "INSERT INTO whwp_AdTag (adtag_advert, adtag_tag) "
                                                 . "VALUES (:advert_id, :tag_id)";
                                     $prepared_statement8 = $conn -> prepare($query8);
                                     $prepared_statement8 -> bindValue(':advert_id', $advert_id);

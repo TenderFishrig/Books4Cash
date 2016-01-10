@@ -57,18 +57,18 @@ session_start();
                         // Establishing a connection to the database
                         try
                         {
-                            $conn = new PDO('mysql:host=localhost;dbname=books4cash', 'root', '');
+                            $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
                         }
                         catch (PDOException $exception) 
                         {
                             echo "There was a problem " . $exception -> getMessage();
                         }
-                        $query = "SELECT user.username FROM user WHERE user.user_id = :receiver_id";
+                        $query = "SELECT whwp_User.user_firstname FROM whwp_User WHERE whwp_User.user_id = :receiver_id";
                         $prepared_statement = $conn -> prepare($query);
                         $prepared_statement -> bindValue(':receiver_id', $receiver_id);
                         $prepared_statement -> execute();
                         $username = $prepared_statement -> fetch(PDO::FETCH_OBJ);
-                        $receiver = $username -> username;
+                        $receiver = $username -> user_firstname;
                     }
                 ?>
                 <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post"
@@ -101,31 +101,33 @@ session_start();
                                     $time_sent = gmdate('Y-m-d H:i:s');
                                     
                                     // Running the queries
-                                    $query2 = "INSERT INTO message (sender_id, receiver_id, "
-                                                . "title, time_sent) VALUES "
-                                                . "(:sender_id, :receiver_id, :title, :time_sent)";
+                                    $query2 = "INSERT INTO whwp_Message (message_sender, message_recipient, "
+                                                . "message_subject, message_content, message_time,message_date) VALUES "
+                                                . "(:sender_id, :receiver_id, :title, :content, :time_sent, :date_sent)";
                                     $prepared_statement2 = $conn -> prepare($query2);
                                     $prepared_statement2 -> bindValue(':sender_id', $sender_id);
                                     $prepared_statement2 -> bindValue(':receiver_id', $receiver_id);
                                     $prepared_statement2 -> bindValue(':title', $title);
                                     $prepared_statement2 -> bindValue(':time_sent', $time_sent);
+                                    $prepared_statement2 -> bindValue(':content',$message);
+                                    $prepared_statement2 -> bindValue(':date_sent',$time_sent);
                                     $prepared_statement2 -> execute();
                                     
-                                    $query3 = "SELECT message_id FROM message ORDER BY message_id DESC LIMIT 1";
-                                    $prepared_statement3 = $conn -> prepare($query3);
-                                    $prepared_statement3 -> bindValue(':text', $message);
-                                    $prepared_statement3 -> execute();
-                                    $resultset = $prepared_statement3 -> fetch(PDO::FETCH_OBJ);
-                                    $message_id = $resultset -> message_id;
+//                                    $query3 = "SELECT message_id FROM message ORDER BY message_id DESC LIMIT 1";
+//                                    $prepared_statement3 = $conn -> prepare($query3);
+//                                    $prepared_statement3 -> bindValue(':text', $message);
+//                                    $prepared_statement3 -> execute();
+//                                    $resultset = $prepared_statement3 -> fetch(PDO::FETCH_OBJ);
+//                                    $message_id = $conn->lastInsertId();
                                     
-                                    $query4 = "INSERT INTO message_text (message_id, text) VALUES "
-                                                . "(:message_id, :text)";
-                                    $prepared_statement4 = $conn -> prepare($query4);
-                                    $prepared_statement4 -> bindValue(":message_id", $message_id);
-                                    $prepared_statement4 -> bindValue(':text', $message);
-                                    $prepared_statement4 -> execute();
+//                                    $query4 = "INSERT INTO message_text (message_id, text) VALUES "
+//                                                . "(:message_id, :text)";
+//                                    $prepared_statement4 = $conn -> prepare($query4);
+//                                    $prepared_statement4 -> bindValue(":message_id", $message_id);
+//                                    $prepared_statement4 -> bindValue(':text', $message);
+//                                    $prepared_statement4 -> execute();
                                     // Give the user some feedback
-                                    if ($prepared_statement2 -> rowCount() > 0 && $prepared_statement3 -> rowCount() > 0)
+                                    if ($prepared_statement2 -> rowCount() > 0)
                                     {
                                         echo "Message sent!";
                                     }

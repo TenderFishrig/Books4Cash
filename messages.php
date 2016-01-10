@@ -59,7 +59,7 @@ session_start();
                         // Establishing a connection to the database
                         try
                         {
-                            $conn = new PDO('mysql:host=localhost;dbname=books4cash', 'root', '');
+                            $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
                         }
                         catch (PDOException $exception) 
                         {
@@ -68,7 +68,7 @@ session_start();
                         // Getting messages from the database
                         /*$query = "SELECT * FROM message, message_text WHERE :user_id = receiver_id "
                                 . "AND message.message_id = message_text.message_id";*/
-                        $query = "SELECT * FROM message WHERE :user_id = receiver_id ORDER BY time_sent DESC";
+                        $query = "SELECT * FROM whwp_Message WHERE :user_id = message_recipient ORDER BY message_date,message_time DESC";
                         $prepared_statement = $conn -> prepare($query);
                         $prepared_statement -> bindValue(':user_id', $user_id);
                         $prepared_statement -> execute();
@@ -86,16 +86,16 @@ session_start();
                             while($message = $prepared_statement -> fetch(PDO::FETCH_OBJ))
                             {
                                 $message_id = $message -> message_id;
-                                $sender_id = $message -> sender_id;
-                                $query2 = "SELECT username FROM user WHERE user_id = :user";
+                                $sender_id = $message -> message_sender;
+                                $query2 = "SELECT user_firstname FROM whwp_User WHERE user_id = :user";
                                 $prepared_statement2 = $conn -> prepare($query2);
                                 $prepared_statement2 -> bindValue(':user', $sender_id);
                                 $prepared_statement2 -> execute();
                                 $resultset = $prepared_statement2 -> fetch(PDO::FETCH_OBJ);
-                                $sender = $resultset -> username;
-                                $title = $message -> title;
-                                $date = $message -> time_sent;
-                                $seen = $message -> seen;
+                                $sender = $resultset -> user_firstname;
+                                $title = $message -> message_subject;
+                                $date = $message -> message_time;
+                                $seen ='n'; //$message -> seen;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
                                 if($seen == 'n')
                                 {
                                     echo "<tr class='seen'>";
