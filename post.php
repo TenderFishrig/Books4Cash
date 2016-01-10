@@ -1,0 +1,273 @@
+<?php
+session_start();
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Post an ad</title>
+        <meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
+        <meta HTTP-EQUIV="Expires" CONTENT="-1">
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+    </head>
+    <body>
+        <div id="container">
+            <div id="header">
+                <img src="images/logo.png" alt="logo"/>
+                <div id="form">
+                    <h2>Search our database:</h2>
+                    <form action="search.php" method="get">
+                        <label for="search">Enter your search term</label>
+                        <input type="text" name="search" id="search" value="<?php 
+                            if (isset($_GET['search'])) echo $_GET['search']; ?>">
+                        <input type="submit" name="Search" value="Search">
+                    </form>
+                </div> 
+            </div>
+            <div id="menu">
+                <a href='#'>Advanced Search</a>&nbsp;&nbsp;
+                <a href='#'>Contact Us</a>&nbsp;&nbsp;
+                <?php
+                    if(isset($_SESSION['username']))
+                    {
+                        $username = $_SESSION['username'];
+                        echo "You are logged in as " . $username . "&nbsp;&nbsp;";
+                        echo "<a href='logout.php'>Log Out</a>";
+                    }   
+                    else
+                    {
+                        echo "<a href='register.php'>Sign Up</a>&nbsp;&nbsp;";
+                        echo "<a href='login.php'>Log In</a>";
+                    }
+                ?>
+            </div>
+            <div id="content">
+                <?php
+                    if(!isset($_SESSION['username']))
+                    {
+                        echo "You need to log in to post an ad!";
+                        header( "refresh:3;url=login.php" );
+                    }   
+                    else
+                    {
+                        // Connect to the database
+                        try
+                        {
+                            $conn = new PDO('mysql:host=localhost;dbname=books4cash', 'root', '');
+                        }
+                        catch (PDOException $exception) 
+                        {
+                            echo "Oh no, there was a problem" . $exception->getMessage();
+                        }
+                        ?>
+                        <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data">
+                            <label for="price">Price:</label>
+                            <input type="number" id="price" name="price"><br/><br/>  
+                            <label for="title">Title:</label>
+                            <input type="text" id="title" name="title"><br/><br/>
+                            <label for="description">Description:</label>
+                            <textarea name="description" rows="5" cols='50'></textarea><br/><br/>
+                            <label for="photo">Photo:</label>
+                            <input type="file" name="image" /><br/><br/>
+                            
+                            <label for="tag1">Tag 1:</label>
+                            <input type="text" id="tag1" maxlength="50" name="tag1"><br/>  
+                            <label for="tag1">Tag 2:</label>
+                            <input type="text" id="tag2" maxlength="50" name="tag2"><br/>  
+                            <label for="tag1">Tag 3:</label>
+                            <input type="text" id="tag3" maxlength="50" name="tag3"><br/>  
+                            <label for="tag1">Tag 4:</label>
+                            <input type="text" id="tag4" maxlength="50" name="tag4"><br/>  
+                            <label for="tag1">Tag 5:</label>
+                            <input type="text" id="tag5" maxlength="50" name="tag5"><br/><br/>
+                            <input type="submit" name="submit" value="Submit ad!" />
+                        </form>
+                        <?php
+                        if(isset($_POST['submit']))
+                        {
+                            if(!empty($_POST['price']) && !empty($_POST['title']) && !empty($_POST['description']))
+                            {
+                                $tag1 = $_POST['tag1'];
+                                $tag2 = $_POST['tag2'];
+                                $tag3 = $_POST['tag3'];
+                                $tag4 = $_POST['tag4'];
+                                $tag5 = $_POST['tag5'];
+                                if(!empty($tag1) || !empty($tag2) || !empty($tag3) || !empty($tag4) || !empty($tag5))
+                                {
+                                    $price = $_POST['price'];
+                                    $title = $_POST['title'];
+                                    $description = $_POST['description'];
+                                    if(is_uploaded_file($_FILES['image']['tmp_name']))
+                                    {
+                                        $file = $_FILES['image']['name'];
+                                        $file_tmp = $_FILES['image']['tmp_name'];
+                                        $image = "C:/xampp/htdocs/Books4cash/itemPhotos/$file"; // Folder to move the file.
+                                        move_uploaded_file($file_tmp, $image); // Move the uploaded file to the desired folder
+                                        $image = substr($image, 27);
+                                    }
+                                    else
+                                    {
+                                        $image = "";
+                                    }
+
+                                    // Get user, who is logged in and posting ad, id
+                                    $query = "SELECT user_id FROM user WHERE username = :username";
+                                    $prepared_statement = $conn -> prepare($query);
+                                    $prepared_statement -> bindValue(':username', $username);
+                                    $prepared_statement -> execute();
+                                    $resultset = $prepared_statement -> fetch(PDO::FETCH_OBJ);
+                                    $user_id = $resultset -> user_id;
+
+                                    // Insert some data to the database.
+                                    $query2 = "INSERT INTO ad (user_id, price, title, image) "
+                                    . "VALUES (:user_id, :price, :title, :image)";
+                                    $prepared_statement2 = $conn -> prepare($query2);
+                                    $prepared_statement2 -> bindValue(':user_id', $user_id);
+                                    $prepared_statement2 -> bindValue(':price', $price);
+                                    $prepared_statement2 -> bindValue(':title', $title);
+                                    $prepared_statement2 -> bindValue(':image', $image);
+                                    $prepared_statement2 -> execute();
+
+                                    // Get the auto generated advert_id.
+                                    $query3 = "SELECT advert_id FROM ad ORDER BY advert_id DESC LIMIT 1";
+                                    $prepared_statement3 = $conn -> prepare($query3);
+                                    $prepared_statement3 -> execute();
+                                    $resultset = $prepared_statement3 -> fetch(PDO::FETCH_OBJ);
+                                    $advert_id = $resultset -> advert_id;
+
+                                    // Insert data to the description table.
+                                    $query4 = "INSERT INTO ad_description (advert_id, description) "
+                                              . "VALUES (:advert_id, :description)";
+                                    $prepared_statement4 = $conn -> prepare($query4);
+                                    $prepared_statement4 -> bindValue(':advert_id', $advert_id);
+                                    $prepared_statement4 -> bindValue(':description', $description);
+                                    $prepared_statement4 -> execute();
+                                    
+                                    // Create array and store all the tags in it.
+                                    $tags = array();
+                                    if(!empty ($tag1))
+                                    {
+                                        array_push($tags, $tag1);
+                                    }
+                                    if(!empty ($tag2))
+                                    {
+                                        array_push($tags, $tag2);
+                                    }
+                                    if(!empty ($tag3))
+                                    {
+                                        array_push($tags, $tag3);
+                                    }
+                                    if(!empty ($tag4))
+                                    {
+                                        array_push($tags, $tag4);
+                                    }
+                                    if(!empty ($tag5))
+                                    {
+                                        array_push($tags, $tag5);
+                                    }
+                                    // Count how many tags were stored.
+                                    $numberOfTags = count($tags);
+                                    
+                                    
+                                    $tagsToAdd = array();
+                                    $tagIdsStored = array();
+                                    // Query to check if such tag exists.
+                                    $query5 = "SELECT tag_id FROM tag WHERE tag = :tag";
+                                    $prepared_statement5 = $conn -> prepare($query5);
+                                    $prepared_statement5 -> bindParam(':tag', $tag);
+                                    for ($i = 0; $i < $numberOfTags; $i++)
+                                    {
+                                        $tag = $tags[$i];
+                                        $prepared_statement5 -> execute();
+                                        if ($prepared_statement5 -> rowCount() == 0)
+                                        {
+                                            array_push($tagsToAdd, $tag);
+                                        }
+                                        else
+                                        {
+                                            $t = $prepared_statement5 -> fetch(PDO::FETCH_OBJ);
+                                            $tagId = $t -> tag_id;
+                                            array_push($tagIdsStored, $tagId);
+                                        }
+                                    }
+                                    
+                                    // How many tags should be added
+                                    $numberOfTagsToAdd = count($tagsToAdd);
+                                    $query6 = "INSERT INTO tag (tag) VALUES (:tag)";  
+                                    $prepared_statement6 = $conn -> prepare($query6);
+                                    for ($i = 0; $i < $numberOfTagsToAdd; $i++)
+                                    {
+                                        $prepared_statement6 -> bindValue(':tag', $tagsToAdd[0]);
+                                        $prepared_statement6 -> execute();
+                                        array_shift ($tagsToAdd);
+                                    }
+                                    
+                                    $query7 = "SELECT tag_id FROM tag ORDER BY tag_id DESC LIMIT :numberOfTagsToAdd";
+                                    $prepared_statement7 = $conn -> prepare($query7);
+                                    $prepared_statement7 -> bindValue(':numberOfTagsToAdd', (int)$numberOfTagsToAdd, PDO::PARAM_INT);
+                                    $prepared_statement7 -> execute();
+                                    while ($tagset = $prepared_statement7 -> fetch(PDO::FETCH_OBJ))
+                                    {
+                                        $tagId = $tagset -> tag_id;
+                                        array_push($tagIdsStored, $tagId);
+                                    }
+                                    
+                                    //$tag_id = "";    
+                                    $query8 = "INSERT INTO ad_tag (advert_id, tag_id) "
+                                                . "VALUES (:advert_id, :tag_id)";
+                                    $prepared_statement8 = $conn -> prepare($query8);
+                                    $prepared_statement8 -> bindValue(':advert_id', $advert_id);
+                                    $prepared_statement8 -> bindParam(':tag_id', $tag_id);
+                                    //var_dump($tagIdsAlreadyStored);
+                                    for ($i = 0; $i < $numberOfTags; $i++)
+                                    {
+                                        //echo "Another one";
+                                        $tag_id = $tagIdsStored[$i];
+                                        //echo $tag_id;
+                                        $prepared_statement8 -> execute();            
+                                        /*if ($prepared_statement8 -> execute())
+                                        {
+                                            echo "Suxes";
+                                        }
+                                        else
+                                        {
+                                            echo "fail";
+                                        }*/
+                                    }
+                                    
+                                    
+                                    // Feedback to the user.
+                                    if ($prepared_statement -> rowCount() > 0
+                                            && $prepared_statement2 -> rowCount() > 0
+                                            && $prepared_statement3 -> rowCount() > 0 
+                                            && $prepared_statement4 -> rowCount() > 0)
+                                    {
+                                        echo "Your ad was posted!";
+                                        echo "You can see it "
+                                            . "<a href='showAdvert.php?advert_id=".$advert_id."'>here</a>";
+                                    }
+                                    else
+                                    {
+                                        echo "Something went wrong...";
+                                    }
+                                }
+                                else
+                                {
+                                    echo "You have to enter at least 1 tag!";
+                                }
+                            }
+                            else
+                            {
+                                echo "Not all mandatory fields were filled in!";
+                            }
+                        
+                        }    
+                    }
+                ?>
+            </div>    
+            <div id="footer">
+                
+            </div> 
+        </div>
+    </body>
+</html>
