@@ -101,12 +101,9 @@ session_start();
                                     {
                                         $file = $_FILES['image']['name'];
                                         $file_tmp = $_FILES['image']['tmp_name'];
-                                        $image = "/web/stud/projects/201516/wehopewepass/itemPhotos/$file"; // Folder to move the file.
-                                        chmod($file_tmp,0777);
-                                        //Todo: fix file upload
+                                        $image = "itemPhotos/".basename($file); // Folder to move the file
                                         move_uploaded_file($file_tmp, $image); // Move the uploaded file to the desired folder
                                         $image = substr($image, 11);
-                                        echo $image;
                                     }
                                     else
                                     {
@@ -143,7 +140,7 @@ session_start();
                                     $advert_id=$conn->lastInsertId();
 
                                     // Insert image data into table
-                                    $query3 = "INSERT INTO whp_Image (image_location) "
+                                    $query3 = "INSERT INTO whwp_Image (image_location) "
                                         . "VALUES (:image)";
                                     $prepared_statement3 = $conn -> prepare($query3);
                                     $prepared_statement3 -> bindValue(':image', $image);
@@ -151,12 +148,12 @@ session_start();
                                     $image_id=$conn->lastInsertId();
 
                                     //Create image-advert link
-                                    $query3="INSERT INTO whp_AdImage (,adimage_advert,adimage_image) "
-                                        . "VALUES (:advert,:image)";
-                                    $prepared_statement3 = $conn -> prepare($query3);
-                                    $prepared_statement3->bindValue(':advert',$advert_id);
-                                    $prepared_statement3 -> bindValue(':image', $image_id);
-                                    $prepared_statement3->execute();
+                                    $query4="INSERT INTO whwp_AdImage (adimage_advert, adimage_image) "
+                                        . "VALUES (:advert, :image)";
+                                    $prepared_statement4 = $conn -> prepare($query4);
+                                    $prepared_statement4->bindValue(':advert',$advert_id);
+                                    $prepared_statement4 -> bindValue(':image', $image_id);
+                                    $prepared_statement4->execute();
 
                                     // Insert data to the description table.
                                     //Todo: add field to database

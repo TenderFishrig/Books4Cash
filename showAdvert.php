@@ -73,18 +73,21 @@ session_start();
                     $resultset = $prepared_statement -> fetch(PDO::FETCH_OBJ);
                     $price = $resultset -> advert_price;
                     $title = $resultset -> advert_bookname;
-                    $image = "";/////$resultset -> image;
+                    //$image = $resultset -> image;
                     $author = $resultset -> advert_bookauthor;
                     $user = $resultset -> advert_owner;
                     $username = $resultset -> user_firstname;
                     //$description = $resultset -> description;
-                    if ($image !== "")
-                    {
-                        echo "<img src=".$image." alt=".$title." title=".$title."<br/>";
-                    }
-                    else
-                    {
-                        echo "No image (make this a default photo or something) <br/>";
+
+                    $queryImage="SELECT whwp_Image.image_location FROM whwp_Advert "
+                        .  "JOIN whwp_AdImage ON whwp_Advert.advert_id = whwp_AdImage.adimage_advert "
+                        .  "JOIN whwp_Image ON whwp_AdImage.adimage_image = whwp_Image.image_id "
+                        .  "WHERE whwp_Advert.advert_id = :advert_id";
+                    $prepared_statement = $conn -> prepare($queryImage);
+                    $prepared_statement -> bindValue(':advert_id', $advert_id);
+                    $prepared_statement -> execute();
+                    while($image = $prepared_statement -> fetch(PDO::FETCH_OBJ)) {
+                        echo "<img src = itemPhotos/" . ($image->image_location) . " alt=" . $title . " title=" . $title . "<br/>";
                     }
                     echo "Price: " . $price . "<br/>";
                     echo "Title: " . $title . "<br/>";
