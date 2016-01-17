@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <link rel="Stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="Stylesheet" type="text/css" href="css/style.css"/>
+	  <meta charset="utf-8">
+	  <meta name="description" content="A page for buying and selling books">
+	
+
+	  <title>Books4Cash</title>
+  </head>
+  
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header"><!-- navbar-header -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <!--Site name for the upper left corner of the site -->
+                <a class="navbar-brand" href="index.html">Books4Cash </a>
+
+            </div>
+            <!-- navbar-header -->
+            <div class="collapse navbar-collapse" id="collapse">
+                
+                <ul class="nav navbar-nav navbar-right" id="menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Account</a></li>
+                    <li><a href="#">Messages</a></li>
+                    <li><button id="signup-button" class="btn btn-default navbar-btn"><a href="registration.html">Sign Up</a></button></li>
+                   
+                       <li class="dropdown">
+                       <button id="login-button" data-toggle="dropdown" class="btn btn-default navbar-btn dropdown-toggle" >Log In <strong class="caret"></strong></a></button>
+           
+                               <div id="logindropdown" class="dropdown-menu" style="padding: 15px;">
+                                   <form class="form-inline" id="formLogin">
+                                   <div class="form-group">
+                                   <label for="alias">Username:</label>
+                                   <input class="form-control" name="login-username" id="username" type="text" placeholder="Username">
+                                   </div>
+                                   <div class="form-group">
+                                   <label for="password">Password:</label>
+                                   <input class="form-control" name="login-password" id="password" type="password" placeholder="Password">
+                                   </div>                            
+                                    <button type="button" id="custombutton" class="btn">Login</button>
+                                    <div class="form-group">
+                                      <label><input type="checkbox"> Remember me</label>
+                                    </div>
+                                   </form><!--login form-->
+                              </div>
+                       </li><!--Login dropdown-->
+                </ul> 
+                
+               
+       
+            </div><!-- collapse navbar-collapse -->
+        </div><!-- container -->
+    </nav>
+
+     <div class="container">
+       <div class="row">
+          <section class="col-md-6 col-md-offset-4" id="registration">
+                <h1>Register</h1>
+              <form role="form">
+
+                    <div class="form-group">
+                      <label for="username">Username</label>
+                      <input type="text" class="form-control" id="username">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="email">Email address:</label>
+                      <input type="email" class="form-control" id="email">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="text">Password</label>
+                      <input type="password" class="form-control" id="password">
+                    </div>
+                  
+                    <div class="form-group">
+                      <label for="password">Re-enter password</label>
+                      <input type="password" class="form-control" id="password">
+                    </div>
+                  
+                  
+                       <button id="custombutton" type="register" class="btn btn-default">Register</button>
+              </form><!--registration form-->
+
+          </section>
+
+       </div>
+     </div><!--registration container-->
+
+      
+
+      <footer>
+         <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>
+      </footer>
+
+     <script src="js/jquery-2.2.0.min.js"></script>
+     <script src="js/bootstrap.min.js"></script>
+     <script src="js/script.js"></script>
+  </body>
+</html>
