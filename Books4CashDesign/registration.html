@@ -34,17 +34,17 @@
                     <li><button id="signup-button" class="btn btn-default navbar-btn"><a href="registration.html">Sign Up</a></button></li>
                    
                        <li class="dropdown">
-                       <button id="login-button" data-toggle="dropdown" class="btn btn-default navbar-btn dropdown-toggle" >Log In <strong class="caret"></strong></a></button>
+                       <button id="login-button" data-toggle="dropdown" class="btn btn-default navbar-btn dropdown-toggle" >Log In <strong class="caret"></strong></button>
            
                                <div id="logindropdown" class="dropdown-menu" style="padding: 15px;">
                                    <form class="form-inline" id="formLogin">
                                    <div class="form-group">
-                                   <label for="alias">Username:</label>
-                                   <input class="form-control" name="login-username" id="username" type="text" placeholder="Username">
+                                   <label for="login_username">Username:</label>
+                                   <input class="form-control" name="login-username" id="login_username" type="text" placeholder="Username">
                                    </div>
                                    <div class="form-group">
-                                   <label for="password">Password:</label>
-                                   <input class="form-control" name="login-password" id="password" type="password" placeholder="Password">
+                                   <label for="login_password">Password:</label>
+                                   <input class="form-control" name="login-password" id="login_password" type="password" placeholder="Password">
                                    </div>                            
                                     <button type="button" id="custombutton" class="btn">Login</button>
                                     <div class="form-group">
@@ -65,31 +65,33 @@
        <div class="row">
           <section class="col-md-6 col-md-offset-4" id="registration">
                 <h1>Register</h1>
-              <form role="form">
+              <form role="form" id="registerForm" action="../register.php">
 
                     <div class="form-group">
                       <label for="username">Username</label>
-                      <input type="text" class="form-control" id="username">
+                      <input type="text" class="form-control" name="username" id="username">
                     </div>
 
                     <div class="form-group">
                       <label for="email">Email address:</label>
-                      <input type="email" class="form-control" id="email">
+                      <input type="email" name="email" class="form-control" id="email">
                     </div>
 
                     <div class="form-group">
-                      <label for="text">Password</label>
-                      <input type="password" class="form-control" id="password">
+                      <label for="password">Password</label>
+                      <input type="password" class="form-control" name="password" id="password">
                     </div>
                   
                     <div class="form-group">
-                      <label for="password">Re-enter password</label>
-                      <input type="password" class="form-control" id="password">
+                      <label for="confirm_password">Re-enter password</label>
+                      <input type="password" name="confirm_password" class="form-control" id="confirm_password">
                     </div>
-                  
-                  
-                       <button id="custombutton" type="register" class="btn btn-default">Register</button>
+
+
+                       <button id="submit" type="submit" class="btn btn-default">Register</button>
+                  <div id="result"></div>
               </form><!--registration form-->
+
 
           </section>
 
@@ -105,5 +107,34 @@
      <script src="js/jquery-2.2.0.min.js"></script>
      <script src="js/bootstrap.min.js"></script>
      <script src="js/script.js"></script>
+
+    <script>
+        // Attach a submit handler to the form
+        $( "#registerForm" ).submit(function( event ) {
+            // Stop form from submitting normally
+            event.preventDefault();
+
+            if ($(this).find("input[name='password']").val() != $(this).find("input[name='confirm_password']").val()) {
+                $("#result").empty().append("Passwords do not match.");
+            } else {
+                // Get some values from elements on the page:
+                var $form = $(this),
+                        term = $form.find("input[name='username']").val(),
+                        term2 = $form.find("input[name='password']").val(),
+                        term3 = $form.find("input[name='email']").val(),
+                        url = $form.attr("action");
+
+                // Send the data using post
+                var posting = $.post(url, {username: term, password: term2, email: term3});
+
+                // Put the results in a div
+                posting.done(function (data) {
+                    $("#result").empty().append(data);
+                });
+            }
+
+        });
+
+    </script>
   </body>
 </html>
