@@ -1,11 +1,4 @@
 <?php
-
-/**
- * Created by PhpStorm.
- * User: Admin
- * Date: 24/01/2016
- * Time: 13:57
- */
 class DBCommunication
 {
     private $host="localhost";
@@ -16,10 +9,6 @@ class DBCommunication
     private $stmt;
     private $error;
 
-    /**
-     * DBCommunication constructor.
-     * @param string $host
-     */
     public function __construct()
     {
         try
@@ -102,12 +91,12 @@ class DBCommunication
 
     public function resultset(){
         $this->execute();
-        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function single(){
         $this->execute();
-        return $this->stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->stmt->fetch(PDO::FETCH_OBJ);
     }
 
     public function rowCount(){

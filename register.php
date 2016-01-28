@@ -28,28 +28,31 @@ include 'DBCommunication.php';
 if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQUEST['email'])) {
     // Get typed in values and add needed signs.
     $database = new DBCommunication();
-    $username = $_REQUEST['username'];
-    $password = $_REQUEST['password'];
-    $email = $_REQUEST['email'];
-    // Check if such username does not exist.
-    $query = "SELECT * FROM whwp_User WHERE user_firstname = :username";
-    $database->prepQuery($query);
-    $database->bind('username', $username);
-    $database->execute();
-    if ($database->rowCount() > 0) {
-        echo "Email already in use.";
-    } else {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        // Insert these values into a database.
-        $query = "INSERT INTO whwp_User (user_firstname, user_email, user_password, user_ismoderator) VALUES (:username,:email, :hashed_password, 0)";
+    try {
+        $username = $_REQUEST['username'];
+        $password = $_REQUEST['password'];
+        $email = $_REQUEST['email'];
+        // Check if such username does not exist.
+        $query = "SELECT * FROM whwp_User WHERE user_firstname = :username";
         $database->prepQuery($query);
-        $database->bindArrayValue(array('username' => $username, 'hashed_password' => $hashed_password, 'email' => $email));
+        $database->bind('username', $username);
         $database->execute();
         if ($database->rowCount() > 0) {
-            echo "Congratulations! You have registered on our website!";
+            echo "Email already in use.";
         } else {
-            echo "Something went wrong...";
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            // Insert these values into a database.
+            $query = "INSERT INTO whwp_User (user_firstname, user_email, user_password, user_ismoderator) VALUES (:username,:email, :hashed_password, 0)";
+            $database->prepQuery($query);
+            $database->bindArrayValue(array('username' => $username, 'hashed_password' => $hashed_password, 'email' => $email));
+            $database->execute();
+            if ($database->rowCount() > 0) {
+                echo "Congratulations! You have registered on our website!";
+            }
         }
+    }
+    catch(PDOException $e){
+        echo "Something went wrong...";
     }
 
 } else

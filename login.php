@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'DBCommunication.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -55,47 +56,36 @@ session_start();
                 if(isset($_POST['login']))
                 {
                     // Connect to the database
-                    try
-                    {
-                        $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
-                    }
-                    catch (PDOException $exception) 
-                    {
-                        echo "Oh no, there was a problem" . $exception->getMessage();
-                    }
-                    $username = $_POST['username'];
-                    $password = $_POST['password'];
-                    $query = "SELECT * FROM whwp_User WHERE user_email = :username";
-                    $prepared_statement = $conn -> prepare($query);
-                    $prepared_statement -> bindValue(':username', $username);
-                    $prepared_statement -> execute();
-                    if($user = $prepared_statement -> fetch(PDO::FETCH_OBJ))
-                    {
-                        if (password_verify($password,$user->user_password))//(crypt($password, $user -> salt) == $user -> password)
-                        {
-                            if(password_needs_rehash($user->user_password, PASSWORD_DEFAULT))
+                    $conn = new DBCommunication();
+                    try {
+                        $username = $_POST['username'];
+                        $password = $_POST['password'];
+                        $query = "SELECT * FROM whwp_User WHERE user_email = :username";
+                        $conn->prepQuery($query);
+                        $conn->bind('username', $username);
+                        if ($user = $conn->single()) {
+                            if (password_verify($password, $user->user_password))//(crypt($password, $user -> salt) == $user -> password)
                             {
-                                $new_hash=password_hash($password, PASSWORD_DEFAULT);
-                                $query = "UPDATE whwp_User SET user_password=(:hashed_password) WHERE user_email=(:username)";
-                                $prep_stmt = $conn -> prepare($query);
-                                $prep_stmt -> bindValue(':hashed_password', $new_hash);
-                                $prep_stmt -> bindValue(':username',$user->username);
-                                //$prep_stmt -> bindValue(':salt', $salt);
-                                $prep_stmt -> execute();
+                                if (password_needs_rehash($user->user_password, PASSWORD_DEFAULT)) {
+                                    $new_hash = password_hash($password, PASSWORD_DEFAULT);
+                                    $query = "UPDATE whwp_User SET user_password=(:hashed_password) WHERE user_email=(:username)";
+                                    $conn->prepQuery($query);
+                                    $conn->bindArrayValue(array('hashed_password' => $new_hash, 'username' => $user->username));
+                                    $conn->execute();
+                                }
+                                echo "Congratulations! You have logged in on our website!";
+                                $_SESSION['user_id'] = $user->user_id;
+                                $_SESSION['username'] = $user->user_email;
+                                header("refresh:3;url=index.php");
+                            } else {
+                                //header("Location: https://selene.hud.ac.uk/u1467200/login.php");
                             }
-                            echo "Congratulations! You have logged in on our website!";
-                            $_SESSION['user_id'] = $user -> user_id;
-                            $_SESSION['username'] = $user -> user_email;
-                            header( "refresh:3;url=index.php" );
-                        }
-                        else
-                        {
-                            //header("Location: https://selene.hud.ac.uk/u1467200/login.php");
+                        } else {
+                            echo "Incorrect username!";
                         }
                     }
-                    else
-                    {
-                        echo "Incorrect username!";
+                    catch(PDOException $e){
+                        echo 'Something went wrong.';
                     }
 
                 }

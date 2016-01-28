@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'DBCommunication.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,14 +48,7 @@ session_start();
             <div id="content">
                 <?php
                     // Establishing a connection to the database
-                    try
-                    {
-                        $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
-                    }
-                    catch (PDOException $exception) 
-                    {
-                        echo "There was a problem " . $exception -> getMessage();
-                    }
+                    $conn = new DBCommunication();
                     // Getting the id of the advertisement
                     $search_term = "";
                     if(isset($_GET['search']))
@@ -63,71 +57,67 @@ session_start();
                         $search_string = "%".$_GET['search']."%";
                         if(!empty($search_term))
                         {
-                            // Run the query.
-                            $query = "SELECT DISTINCT whwp_Advert.* FROM whwp_Advert, whwp_AdTag, whwp_Tag "
-                                . "WHERE whwp_Tag.tag_description LIKE :search_string "
-                                . "AND whwp_Tag.tag_id = whwp_AdTag.adtag_tag "
-                                . "AND whwp_AdTag.adtag_advert = whwp_Advert.advert_id";
-                                
-                            $prepared_statement = $conn -> prepare($query);
-                            $prepared_statement -> bindValue(':search_string', $search_string);
-                            $prepared_statement -> execute();
-                                                
-                            // Counts how many results were returned from the search.
-                            $count = $prepared_statement -> rowCount();
-                            if ($count == 1)
-                            {
-                                echo "Your search provided " . $count . " result";
-                            }
-                            else
-                            {
-                                echo "Your search provided " . $count . " results";
-                            }
-                            // Paging system
-                            if (isset($_GET["page"])) 
-                            { 
-                                $page = $_GET["page"]; 
-                                $search_term = $_GET["search"];
-                            } 
-                            else 
-                            { 
-                                //$page = 10;    
-                                $page = 1;
-                                header("location:search.php?search=$search_term&Search=Search&page=1");
-                            } 
-                            // Determine which results to show in which page.
-                            //$start_from = ($page-1) * 10;
-                            $start_from = ($page-1) * 10;
+                            try {
+                                // Run the query.
+                                $query = "SELECT DISTINCT COUNT(*) as count FROM whwp_Advert, whwp_AdTag, whwp_Tag "
+                                    . "WHERE whwp_Tag.tag_description LIKE :search_string "
+                                    . "AND whwp_Tag.tag_id = whwp_AdTag.adtag_tag "
+                                    . "AND whwp_AdTag.adtag_advert = whwp_Advert.advert_id";
 
-                            // How many results per one page
-                            $pageLimit = 10;
-                            //Todo: inefficent we already have all the rows from previous query
-                            $query2 = "SELECT DISTINCT whwp_Advert.* FROM whwp_Advert, whwp_AdTag, whwp_Tag "
-                                . "WHERE whwp_Tag.tag_description LIKE :search_string "
-                                . "AND whwp_Tag.tag_id = whwp_AdTag.adtag_tag "
-                                . "AND whwp_AdTag.adtag_advert = whwp_Advert.advert_id "
-                                . "ORDER BY whwp_Advert.advert_id "
-                                . "LIMIT $start_from, $pageLimit";
+                                $conn->prepQuery($query);
+                                $conn->bind('search_string', $search_string);
 
-                            $prepared_statement2 = $conn -> prepare($query2);
-                            $prepared_statement2 -> bindValue(':search_string', $search_string);
-                            $prepared_statement2 -> execute();
-                            while ($advert = $prepared_statement2 -> fetch(PDO::FETCH_OBJ))
-                            {
-                                echo "<p>";
-                                echo "<a href='showAdvert.php?advert_id="
-                                    . $advert -> advert_id."'>";
-                                echo $advert -> advert_bookname;
-                                echo "</a>";
-                                echo " " . $advert -> advert_price;
-                                echo "</p>";
+                                // Counts how many results were returned from the search.
+                                $count = $conn->single()->count;
+                                if ($count ==1) {
+                                    echo "Your search provided 1 result";
+                                } else {
+                                    echo "Your search provided " . $count . " results";
+                                }
+                                // Paging system
+                                if (isset($_GET["page"])) {
+                                    $page = $_GET["page"];
+                                    $search_term = $_GET["search"];
+                                } else {
+                                    //$page = 10;
+                                    $page = 1;
+                                    header("location:search.php?search=$search_term&Search=Search&page=1");
+                                }
+                                // Determine which results to show in which page.
+                                //$start_from = ($page-1) * 10;
+                                $start_from = ($page - 1) * 10;
+
+                                // How many results per one page
+                                $pageLimit = 10;
+
+                                $query = "SELECT DISTINCT whwp_Advert.* FROM whwp_Advert, whwp_AdTag, whwp_Tag "
+                                    . "WHERE whwp_Tag.tag_description LIKE :search_string "
+                                    . "AND whwp_Tag.tag_id = whwp_AdTag.adtag_tag "
+                                    . "AND whwp_AdTag.adtag_advert = whwp_Advert.advert_id "
+                                    . "ORDER BY whwp_Advert.advert_id "
+                                    . "LIMIT $start_from, $pageLimit";
+
+                                $conn->prepQuery($query);
+                                $conn->bind('search_string', $search_string);
+                                $advert=$conn->resultset();
+                                foreach ($advert as $element) {
+                                    echo "<p>";
+                                    echo "<a href='showAdvert.php?advert_id="
+                                        . $element->advert_id . "'>";
+                                    echo $element->advert_bookname;
+                                    echo "</a>";
+                                    echo " " . $element->advert_price;
+                                    echo "</p>";
+                                }
+                                // Determining how many pages will be needed and outputting them.
+                                $totalPages = ceil($count / $pageLimit);
+                                for ($i = 1; $i <= $totalPages; $i++) {
+                                    echo "<a href='search.php?search=$search_term&Search=Search&page=$i'>$i</a> ";
+                                }
                             }
-                            // Determining how many pages will be needed and outputting them.
-                            $totalPages = ceil($count / $pageLimit);
-                            for ($i = 1; $i <= $totalPages; $i++) 
-                            {
-                                echo "<a href='search.php?search=$search_term&Search=Search&page=$i'>$i</a> "; 
-                            } 
+                            catch (PDOException $e){
+                                echo 'Something went wrong.';
+                            }
                         }
                         else
                         {

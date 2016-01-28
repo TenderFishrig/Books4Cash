@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'DBCommunication.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -59,42 +60,34 @@ session_start();
                         // Get the message id that the user wishes to open
                         $message_id = $_GET['message_id'];
                         // Establishing a connection to the database
-                        try
-                        {
-                            $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
-                        }
-                        catch (PDOException $exception) 
-                        {
-                            echo "There was a problem " . $exception -> getMessage();
-                        }
-                        // Query to get a message
-                        $query = "SELECT * FROM whwp_Message WHERE :user_id = message_recipient ";
-                        $prepared_statement = $conn -> prepare($query);
-                        $prepared_statement -> bindValue(':user_id', $user_id);
-                        $prepared_statement -> execute();
-                        $message = $prepared_statement -> fetch(PDO::FETCH_OBJ);
-                        //$sender_id = $message -> receiver_id;
-                        // Check if the specified message belongs to the logged in user
-                        //if($user_id == $sender_id)
-                        //{
-                            $sender_id = $message -> message_sender;
+                        $conn = new DBCommunication();
+                        try {
+                            // Query to get a message
+                            $query = "SELECT * FROM whwp_Message WHERE :user_id = message_recipient ";
+                            $conn->prepQuery($query);
+                            $conn->bind('user_id',$user_id);
+                            $message = $conn->single();
+                            //$sender_id = $message -> receiver_id;
+                            // Check if the specified message belongs to the logged in user
+                            //if($user_id == $sender_id)
+                            //{
+                            $sender_id = $message->message_sender;
                             // Query to get the sender's username.
-                            $query2 = "SELECT user_firstname FROM whwp_User WHERE user_id = :user";
-                            $prepared_statement2 = $conn -> prepare($query2);
-                            $prepared_statement2 -> bindValue(':user', $sender_id);
-                            $prepared_statement2 -> execute();
-                            $resultset = $prepared_statement2 -> fetch(PDO::FETCH_OBJ);
+                            $query = "SELECT user_firstname FROM whwp_User WHERE user_id = :user";
+                            $conn->prepQuery($query);
+                            $conn->bind('user',$sender_id);
+                            $resultset = $conn->single();
                             // Get and output all the details.
-                            $sender = $resultset -> user_firstname;
-                            $title = $message -> message_subject;
-                            $message_text = $message -> message_content;
-                            $date = $message -> message_date;
+                            $sender = $resultset->user_firstname;
+                            $title = $message->message_subject;
+                            $message_text = $message->message_content;
+                            $date = $message->message_date;
                             //$sent = $message -> seen;
                             echo "From: " . $sender . "&nbsp &nbsp &nbsp &nbsp ";
                             echo "Time sent: " . $date . "<br/>";
-                            echo $title  . "<br/>";
+                            echo $title . "<br/>";
                             echo $message_text;
-                            
+
                             // Mark the message as seen
 //                            $query3 = "UPDATE message SET seen = 'y' WHERE message_id = :message_id";
 //                            $prepared_statement3 = $conn -> prepare($query3);
@@ -106,12 +99,16 @@ session_start();
 //                            {
 //                                header('Location: messages.php');
 //                            }
-                        //}
-                        // If message belongs to another user (not logged in), redirect the user.
+                            //}
+                            // If message belongs to another user (not logged in), redirect the user.
 //                        else
 //                        {
 //                            header('Location: messages.php');
 //                        }
+                        }
+                        catch (PDOException $e){
+                            echo 'Something went wrong.';
+                        }
                     }
                 ?>    
             </div>    

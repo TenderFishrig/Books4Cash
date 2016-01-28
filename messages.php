@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'DBCommunication.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -57,68 +58,55 @@ session_start();
                         // Check which user is logged in
                         $user_id = $_SESSION['user_id'];
                         // Establishing a connection to the database
-                        try
-                        {
-                            $conn = new PDO('mysql:host=localhost;dbname=wehope', 'wehope', 'l4ndofg10ry');
-                        }
-                        catch (PDOException $exception) 
-                        {
-                            echo "There was a problem " . $exception -> getMessage();
-                        }
+                            $conn = new DBCommunication();
                         // Getting messages from the database
                         /*$query = "SELECT * FROM message, message_text WHERE :user_id = receiver_id "
                                 . "AND message.message_id = message_text.message_id";*/
-                        $query = "SELECT * FROM whwp_Message WHERE :user_id = message_recipient ORDER BY message_date,message_time DESC";
-                        $prepared_statement = $conn -> prepare($query);
-                        $prepared_statement -> bindValue(':user_id', $user_id);
-                        $prepared_statement -> execute();
-                        $countMessages = $prepared_statement -> rowCount();
-                        if($countMessages == 0)
-                        {
-                            echo "You have no messages in your inbox!";
-                        }
-                        else
-                        {
-                            echo "<h3>Your inbox:</h3>";
-                            echo "<table class='table'>";  
-                            echo "<tr><th>Sender:</th><th>Title:</th>"
-                                . "<th>Time Sent:</th></tr>";
-                            while($message = $prepared_statement -> fetch(PDO::FETCH_OBJ))
-                            {
-                                $message_id = $message -> message_id;
-                                $sender_id = $message -> message_sender;
-                                $query2 = "SELECT user_firstname FROM whwp_User WHERE user_id = :user";
-                                $prepared_statement2 = $conn -> prepare($query2);
-                                $prepared_statement2 -> bindValue(':user', $sender_id);
-                                $prepared_statement2 -> execute();
-                                $resultset = $prepared_statement2 -> fetch(PDO::FETCH_OBJ);
-                                $sender = $resultset -> user_firstname;
-                                $title = $message -> message_subject;
-                                $date = $message -> message_time;
-                                $seen ='n'; //$message -> seen;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-                                if($seen == 'n')
-                                {
-                                    echo "<tr class='seen'>";
-                                    
+                        try {
+                            $query = "SELECT * FROM whwp_Message WHERE :user_id = message_recipient ORDER BY message_date,message_time DESC";
+                            $conn->prepQuery($query);
+                            $conn->bind('user_id', $user_id);
+                            $message = $conn->resultset();
+                            $countMessages = $conn->rowCount();
+                            if ($countMessages == 0) {
+                                echo "You have no messages in your inbox!";
+                            } else {
+                                echo "<h3>Your inbox:</h3>";
+                                echo "<table class='table'>";
+                                echo "<tr><th>Sender:</th><th>Title:</th>"
+                                    . "<th>Time Sent:</th></tr>";
+                                foreach ($message as $element) {
+                                    $message_id = $element->message_id;
+                                    $sender_id = $element->message_sender;
+                                    $query = "SELECT user_firstname FROM whwp_User WHERE user_id = :user";
+                                    $conn->prepQuery($query);
+                                    $conn->bind('user', $sender_id);
+                                    $resultset = $conn->single();
+                                    $sender = $resultset->user_firstname;
+                                    $title = $element->message_subject;
+                                    $date = $element->message_time;
+                                    $seen = 'n'; //$message -> seen;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+                                    if ($seen == 'n') {
+                                        echo "<tr class='seen'>";
+
+                                    } else {
+                                        echo "<tr>";
+                                    }
+                                    echo "<td>" . $sender . "</td>";
+                                    if ($seen == 'n') {
+                                        echo "<td><a class='seen' href='read_message.php?message_id=" . $message_id . "'>" . $title . "</a></td>";
+                                    } else {
+                                        echo "<td><a href='read_message.php?message_id=" . $message_id . "'>" . $title . "</a></td>";
+                                    }
+                                    echo "<td>" . $date . "</td>";
+                                    echo "</tr>";
+
                                 }
-                                else
-                                {
-                                    echo "<tr>";
-                                }
-                                echo "<td>". $sender ."</td>";
-                                if($seen == 'n')
-                                {
-                                    echo "<td><a class='seen' href='read_message.php?message_id=" . $message_id . "'>" . $title . "</a></td>";
-                                } 
-                                else
-                                {
-                                    echo "<td><a href='read_message.php?message_id=" . $message_id . "'>" . $title . "</a></td>";
-                                }
-                                echo "<td>". $date ."</td>";
-                                echo "</tr>";
-                                
+                                echo "</table>";
                             }
-                            echo "</table>";
+                        }
+                        catch (PDOException $e){
+                            echo "Something went wrong.";
                         }
                     }
                 ?>    
