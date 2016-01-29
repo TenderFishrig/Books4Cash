@@ -1,39 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
- <head>
-    <link rel="Stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-    <link rel="Stylesheet" type="text/css" href="css/style.css"/>
-	  <meta charset="utf-8">
-	  <meta name="description" content="A page for buying and selling books">
-	
-
-	  <title>Books4Cash</title>
-  </head>
-
-  <body>
-
-    <nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header"><!-- navbar-header -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse">
+            <button class="navbar-btn btn btn-default hidden-xs" id ="openCategories">Categories</button><!--toggle categories-->
+                <button type="button" class=" navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
+                
                 <!--Site name for the upper left corner of the site -->
-                <a class="navbar-brand" href="index.html">Books4Cash </a>
-
+                <a class="navbar-brand visible-xs" href="index.php">Books4Cash </a>
+                  
             </div>
+			
             <!-- navbar-header -->
             <div class="collapse navbar-collapse" id="collapse">
                 
                 <ul class="nav navbar-nav navbar-right" id="menu">
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.php">Home</a></li>
                     <li><a href="#">Account</a></li>
                     <li><a href="#">Messages</a></li>
+                    <li><a href="#" class="visible-xs">Categories</a></li>
                     <li>
-                      <form action="registration.html">
+                      <form action="registration.php">
                         <button id="signup-button" class="btn btn-default navbar-btn">Sign Up</button>
                       </form>
                    </li>
@@ -63,48 +52,3 @@
             </div><!-- collapse navbar-collapse -->
         </div><!-- container -->
     </nav>
-     
-     <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="#" id="categories">
-                        Categories
-                    </a>
-                </li>
-                <li>
-                    <a href="#">Applied Sciences</a>
-                </li>
-                <li>
-                    <a href="#">Art, Design, Architecture</a>
-                </li>
-                <li>
-                    <a href="#">Business</a>
-                </li>
-                <li>
-                    <a href="#">Computing and Engineering</a>
-                </li>
-                <li>
-                    <a href="#">Education and Professional Development</a>
-                </li>
-                <li>
-                    <a href="#">Human and Health Sciences</a>
-                </li>
-                <li>
-                    <a href="#">Music, Humanities and Media</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /#sidebar-wrapper -->
-     
-      
-           
-     <footer>
-         <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>
-     </footer>
-
-     <script src="js/jquery-2.2.0.min.js"></script>
-     <script src="js/bootstrap.min.js"></script>
-     <script src="js/script.js"></script>
-  </body>
-</html>

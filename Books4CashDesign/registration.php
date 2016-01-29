@@ -11,55 +11,12 @@
   </head>
   
   <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header"><!-- navbar-header -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+  
+   <?php 
+   include("includes/menu.php");
+   include("includes/sidebar.php");
+   ?>
 
-                <!--Site name for the upper left corner of the site -->
-                <a class="navbar-brand" href="index.html">Books4Cash </a>
-
-            </div>
-            <!-- navbar-header -->
-            <div class="collapse navbar-collapse" id="collapse">
-                
-                <ul class="nav navbar-nav navbar-right" id="menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#">Account</a></li>
-                    <li><a href="#">Messages</a></li>
-                    <li><button id="signup-button" class="btn btn-default navbar-btn"><a href="registration.html">Sign Up</a></button></li>
-                   
-                       <li class="dropdown">
-                       <button id="login-button" data-toggle="dropdown" class="btn btn-default navbar-btn dropdown-toggle" >Log In <strong class="caret"></strong></button>
-           
-                               <div id="logindropdown" class="dropdown-menu" style="padding: 15px;">
-                                   <form class="form-inline" id="formLogin">
-                                   <div class="form-group">
-                                   <label for="login_username">Username:</label>
-                                   <input class="form-control" name="login-username" id="login_username" type="text" placeholder="Username">
-                                   </div>
-                                   <div class="form-group">
-                                   <label for="login_password">Password:</label>
-                                   <input class="form-control" name="login-password" id="login_password" type="password" placeholder="Password">
-                                   </div>                            
-                                    <button type="button" id="custombutton" class="btn">Login</button>
-                                    <div class="form-group">
-                                      <label><input type="checkbox"> Remember me</label>
-                                    </div>
-                                   </form><!--login form-->
-                              </div>
-                       </li><!--Login dropdown-->
-                </ul> 
-                
-               
-       
-            </div><!-- collapse navbar-collapse -->
-        </div><!-- container -->
-    </nav>
 
      <div class="container">
        <div class="row">
@@ -82,7 +39,7 @@
                       <input type="password" class="form-control" name="password" id="password">
                     </div>
                   
-                    <div class="form-group">
+                    <div class="form-group" id="confirmation">
                       <label for="confirm_password">Re-enter password</label>
                       <input type="password" name="confirm_password" class="form-control" id="confirm_password">
                     </div>
@@ -107,6 +64,7 @@
      <script src="js/jquery-2.2.0.min.js"></script>
      <script src="js/bootstrap.min.js"></script>
      <script src="js/script.js"></script>
+     <script src="js/EffectsIndex.js"></script>
 
     <script>
         // Attach a submit handler to the form
@@ -115,7 +73,7 @@
             event.preventDefault();
 
             if ($(this).find("input[name='password']").val() != $(this).find("input[name='confirm_password']").val()) {
-                $("#result").empty().append("Passwords do not match.");
+            $(this).find("input[name='confirm_password']").removeClass('default')
             } else {
                 // Get some values from elements on the page:
                 var $form = $(this),
