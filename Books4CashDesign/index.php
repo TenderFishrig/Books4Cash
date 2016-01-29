@@ -24,13 +24,6 @@
              <p>Books4Cash</p>
              </div>
           </header>
-         
-     <div class="container">
-       
-    
-     </div>
-        
-      
            
      <footer>
          <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>
