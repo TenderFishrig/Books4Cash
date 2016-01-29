@@ -22,9 +22,8 @@
     font-size: 50px;
 	color:#2AAC86;
 	position:relative;
-	left:100px;
 	top:60px;
-	width:800px;
+	width:700px;
 	padding:20px;
 	background:#AEEDD7;
 	text-align:center;
@@ -243,4 +242,19 @@ color:#000000;
     }
 
     
+    
+}
+
+
+@media(max-width: 730px){
+
+.banner p{
+
+    font-size: 25px;
+    color:#2AAC86;
+    position:relative;
+    top:60px;
+    width:350px;
+    
+    }
 }
