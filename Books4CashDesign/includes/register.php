@@ -52,7 +52,7 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQU
         }
     }
     catch(PDOException $e){
-        echo "Something went wrong...";
+        echo "<script src = ";
     }
 
 } else
