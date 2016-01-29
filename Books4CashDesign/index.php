@@ -20,10 +20,11 @@
      
        
           <header class="banner">
-             <div class= "container">
-             <p>Books4Cash</p>
+             <div class= "container-fluid">
+             <p class="container-fluid">Books4Cash</p>
              </div>
           </header>
+           
            
      <footer>
          <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>
