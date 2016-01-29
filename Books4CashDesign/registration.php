@@ -44,6 +44,15 @@
                       <input type="password" name="confirm_password" class="form-control" id="confirm_password">
                     </div>
 
+                    <div class="form-group">
+                      <div class="checkbox">
+                      	<label>
+                      		<input type="checkbox" value="">
+                      		<p>I agree with Terms &amp; Conditions</p>
+                      	</label>
+                      </div>
+                    </div>
+
 
                        <button id="submit" type="submit" class="btn btn-default">Register</button>
                   <div id="result"></div>

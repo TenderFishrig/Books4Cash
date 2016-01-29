@@ -19,12 +19,12 @@
 
 .banner p {
 	font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
-    font-size: 20px;
+    font-size: 50px;
 	color:#2AAC86;
 	position:relative;
-	left:20px;
-	top:120px;
-	width:320px;
+	left:100px;
+	top:60px;
+	width:800px;
 	padding:20px;
 	background:#AEEDD7;
 	text-align:center;
