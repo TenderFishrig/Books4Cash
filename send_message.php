@@ -56,8 +56,8 @@ include "DBCommunication.php";
                     {
                         $receiver_id = $_SESSION['target_id'];
                         // Establishing a connection to the database
-                        $conn = new DBCommunication();
                         try {
+                            $conn = new DBCommunication();
                             $query = "SELECT whwp_User.user_firstname FROM whwp_User WHERE whwp_User.user_id = :receiver_id";
                             $conn->prepQuery($query);
                             $conn->bind('receiver_id', $receiver_id);

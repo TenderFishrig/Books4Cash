@@ -57,12 +57,12 @@ include 'DBCommunication.php';
                     {
                         // Check which user is logged in
                         $user_id = $_SESSION['user_id'];
-                        // Establishing a connection to the database
-                            $conn = new DBCommunication();
                         // Getting messages from the database
                         /*$query = "SELECT * FROM message, message_text WHERE :user_id = receiver_id "
                                 . "AND message.message_id = message_text.message_id";*/
                         try {
+                            // Establishing a connection to the database
+                            $conn = new DBCommunication();
                             $query = "SELECT * FROM whwp_Message WHERE :user_id = message_recipient ORDER BY message_date,message_time DESC";
                             $conn->prepQuery($query);
                             $conn->bind('user_id', $user_id);

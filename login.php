@@ -56,8 +56,8 @@ include 'DBCommunication.php';
                 if(isset($_POST['login']))
                 {
                     // Connect to the database
-                    $conn = new DBCommunication();
                     try {
+                        $conn = new DBCommunication();
                         $username = $_POST['username'];
                         $password = $_POST['password'];
                         $query = "SELECT * FROM whwp_User WHERE user_email = :username";

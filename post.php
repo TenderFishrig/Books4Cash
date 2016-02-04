@@ -52,7 +52,6 @@ include 'DBCommunication.php';
         else
         {
             // Connect to the database
-            $conn = new DBCommunication();
             ?>
             <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data">
                 <label for="price">Price:</label>
@@ -104,6 +103,7 @@ include 'DBCommunication.php';
                             $image = "";
                         }
                         try {
+                            $conn = new DBCommunication();
                             $conn->beginTransaction();
                             // Get user, who is logged in and posting ad, id
                             $query = "SELECT user_id FROM whwp_User WHERE user_email = :username";

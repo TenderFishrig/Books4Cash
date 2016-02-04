@@ -59,9 +59,9 @@ include 'DBCommunication.php';
                         $user_id = $_SESSION['user_id'];
                         // Get the message id that the user wishes to open
                         $message_id = $_GET['message_id'];
-                        // Establishing a connection to the database
-                        $conn = new DBCommunication();
                         try {
+                            // Establishing a connection to the database
+                            $conn = new DBCommunication();
                             // Query to get a message
                             $query = "SELECT * FROM whwp_Message WHERE :user_id = message_recipient ";
                             $conn->prepQuery($query);

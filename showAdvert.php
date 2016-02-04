@@ -47,8 +47,6 @@ include "DBCommunication.php";
     </div>
     <div id="content">
         <?php
-        // Establishing a connection to the database
-        $conn = new DBCommunication();
         // Getting the id of the advertisement
         $advert_id = $_GET['advert_id'];
 
@@ -59,6 +57,8 @@ include "DBCommunication.php";
         }
 
         try {
+            // Establishing a connection to the database
+            $conn = new DBCommunication();
             $query = "SELECT * FROM whwp_Advert, whwp_User "
                 . "WHERE whwp_Advert.advert_id = :advert_id "
                 . "AND whwp_User.user_id = whwp_Advert.advert_owner";

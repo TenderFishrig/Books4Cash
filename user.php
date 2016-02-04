@@ -47,11 +47,11 @@ include "DBCommunication.php";
     </div>
     <div id="content">
         <?php
-        // Establishing a connection to the database
-        $conn = new DBCommunication();
         if(isset($_GET['user_id']))
         {
             try {
+                // Establishing a connection to the database
+                $conn = new DBCommunication();
                 // Get the ID of which user's page to display
                 $user_id = $_GET['user_id'];
                 // Run query to get information about the user.

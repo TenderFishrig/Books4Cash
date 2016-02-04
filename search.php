@@ -47,8 +47,6 @@ include 'DBCommunication.php';
             </div>
             <div id="content">
                 <?php
-                    // Establishing a connection to the database
-                    $conn = new DBCommunication();
                     // Getting the id of the advertisement
                     $search_term = "";
                     if(isset($_GET['search']))
@@ -58,6 +56,8 @@ include 'DBCommunication.php';
                         if(!empty($search_term))
                         {
                             try {
+                                // Establishing a connection to the database
+                                $conn = new DBCommunication();
                                 // Run the query.
                                 $query = "SELECT DISTINCT COUNT(*) as count FROM whwp_Advert, whwp_AdTag, whwp_Tag "
                                     . "WHERE whwp_Tag.tag_description LIKE :search_string "

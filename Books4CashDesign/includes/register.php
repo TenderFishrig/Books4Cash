@@ -27,19 +27,28 @@ include 'DBCommunication.php';
 //
 if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQUEST['email'])) {
     // Get typed in values and add needed signs.
-    $database = new DBCommunication();
     try {
+        $database = new DBCommunication();
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
         $email = $_REQUEST['email'];
         // Check if such username does not exist.
-        $query = "SELECT * FROM whwp_User WHERE user_firstname = :username";
+        $query = "SELECT * FROM whwp_User WHERE user_username = :username";
         $database->prepQuery($query);
         $database->bind('username', $username);
         $database->execute();
-        if ($database->rowCount() > 0) {
+        $usernameuse=$database->rowCount();
+        $query = "SELECT * FROM whwp_User WHERE user_email = :email";
+        $database->prepQuery($query);
+        $database->bind('email', $email);
+        $database->execute();
+        $emailuse=$database->rowCount();
+        if ($username > 0) {
+            echo "Username already in use.";
+        } elseif($emailuse > 0 ) {
             echo "Email already in use.";
-        } else {
+        }
+        else {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             // Insert these values into a database.
             $query = "INSERT INTO whwp_User (user_firstname, user_email, user_password, user_ismoderator) VALUES (:username,:email, :hashed_password, 0)";

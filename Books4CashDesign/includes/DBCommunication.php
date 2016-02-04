@@ -7,22 +7,14 @@ class DBCommunication
     private $password="l4ndofg10ry";
     private $conn;
     private $stmt;
-    private $error;
 
     public function __construct()
     {
-        try
-        {
-            $options = array(
-                PDO::ATTR_PERSISTENT => true,
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-            );
-            $this->conn = new PDO('mysql:host='.$this->host.';dbname='.$this->dbname, $this->login, $this->password, $options);
-        }
-        catch (PDOException $exception)
-        {
-            $this->error = $exception->getMessage();
-        }
+        $options = array(
+            PDO::ATTR_PERSISTENT => true,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        );
+        $this->conn = new PDO('mysql:host='.$this->host.';dbname='.$this->dbname, $this->login, $this->password, $options);
     }
 
     public function beginTransaction(){

@@ -26,9 +26,8 @@ include 'DBCommunication.php';
 //                }
 //
 if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQUEST['email'])) {
-    // Get typed in values and add needed signs.
-    $database = new DBCommunication();
     try {
+        $database = new DBCommunication();
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
         $email = $_REQUEST['email'];
