@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
  <head>
@@ -14,8 +17,22 @@
 	<body>
 		
     <?php 
-   include("includes/menu.php");
-   include("includes/sidebar.php");
+
+   if(isset($_SESSION['username']))
+    {
+
+   include("includes/loggedMenu.php");
+   	
+    }
+    
+    else
+    {
+
+    include("includes/menu.php");
+   
+    }
+
+    include("includes/sidebar.php");
    ?>
      
      

@@ -8,7 +8,7 @@
     <meta name="description" content="A page for buying and selling books">
   
 
-    <title>Books4Cash</title>
+    <title>Registration</title>
   </head>
   
   <body>
@@ -26,22 +26,39 @@
               <form role="form" id="registerForm" action="includes/register.php">
 
                     <div class="form-group">
-                      <label for="username">Username</label>
+                      <label for="username">Username:*</label>
                       <input type="text" class="form-control" name="username" id="username">
                     </div>
 
                     <div class="form-group">
-                      <label for="email">Email address:</label>
+                      <label for="firstname">First name:</label>
+                      <input type="text" class="form-control" name="firstname" id="firstname">
+                    </div>
+
+
+                    <div class="form-group">
+                      <label for="lastname">Last name:</label>
+                      <input type="text" class="form-control" name="lastname" id="lastname">
+                    </div>
+
+
+                    <div class="form-group">
+                      <label for="city">City:</label>
+                      <input type="text" class="form-control" name="city" id="city">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="email">Email address:*</label>
                       <input type="email" name="email" class="form-control" id="email">
                     </div>
 
                     <div class="form-group">
-                      <label for="password">Password</label>
+                      <label for="password">Password:*</label>
                       <input type="password" class="form-control" name="password" id="password">
                     </div>
                   
                     <div class="form-group" id="confirmation">
-                      <label for="confirm_password">Re-enter password</label>
+                      <label for="confirm_password">Re-enter password:*</label>
                       <input type="password" name="confirm_password" class="form-control" id="confirm_password">
                     </div>
 

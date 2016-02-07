@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header"><!-- navbar-header -->
@@ -18,8 +19,6 @@
                 
                 <ul class="nav navbar-nav navbar-right" id="menu">
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="#">Account</a></li>
-                    <li><a href="#">Messages</a></li>
                     <li><a href="#" class="visible-xs">Categories</a></li>
                     <li>
                       <form action="registration.php">
@@ -31,16 +30,16 @@
                        <button id="login-button" data-toggle="dropdown" class="btn btn-default navbar-btn dropdown-toggle" >Log In <strong class="caret"></strong></button>
            
                                <div id="logindropdown" class="dropdown-menu" style="padding: 15px;">
-                                   <form class="form-inline" id="formLogin">
+                                   <form class="form-inline" id="formLogin" action="includes/login.php" method="post">
                                    <div class="form-group">
                                    <label for="login_username">Username:</label>
-                                   <input class="form-control" name="login_username" id="login_username" type="text" placeholder="Username">
+                                   <input class="form-control" name="username" id="login_username" type="text" placeholder="Username">
                                    </div>
                                    <div class="form-group">
                                    <label for="login_password">Password:</label>
-                                   <input class="form-control" name="login_password" id="login_password" type="password" placeholder="Password">
+                                   <input class="form-control" name="password" id="login_password" type="password" placeholder="Password">
                                    </div>
-                                    <button type="button" id="custombutton" class="btn">Login</button>
+                                    <input type="submit" value="Log In" name="login" id="custombutton" class="btn"></input>
                                     <div class="form-group">
                                       <label><input type="checkbox"> Remember me</label>
                                     </div>

@@ -9,21 +9,10 @@ banner.css('backgroundPosition', x + 'px' + ' ' + y + 'px');
 window.setInterval(function() {
 	banner.css("backgroundPosition", x + 'px' + ' ' + y + 'px');
 	y--;
-}, 90);
-
-$(function ver () {
-	   
-     password = $('#password').val();
-     confirm = $('#confirm_password').val();
-     while(password!=confirm){
-     	$('#confirmation').addClass("has-error");
-     }
-
-	});
-
-
-
+}, 90)
 });
+
+
 
 
 

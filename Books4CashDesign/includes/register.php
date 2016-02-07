@@ -38,7 +38,19 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQU
         $database->bind('username', $username);
         $database->execute();
         if ($database->rowCount() > 0) {
-            echo "Email already in use.";
+            echo 
+            "<script> $.notify({
+              title: '<strong>Error!</strong>',
+              message: 'Email already in use.',
+               
+              },{
+               type: 'warning',
+              offset: {
+                  x : 150,
+                  y : 80
+                }
+              
+              });</script>";
         } else {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             // Insert these values into a database.
@@ -47,7 +59,18 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQU
             $database->bindArrayValue(array('username' => $username, 'hashed_password' => $hashed_password, 'email' => $email));
             $database->execute();
             if ($database->rowCount() > 0) {
-                echo "Congratulations! You have registered on our website!";
+                echo "<script> $.notify({
+              title: '<strong>Error!</strong>',
+              message: 'You have successfully registered.',
+               
+              },{
+               type: 'warning',
+              offset: {
+                  x : 150,
+                  y : 80
+                }
+              
+              });</script>";
             }
         }
     }
