@@ -73,7 +73,6 @@
 
 
                        <button id="submit" type="submit" class="btn btn-default">Register</button>
-                  <div id="result"></div>
               </form><!--registration form-->
 
 

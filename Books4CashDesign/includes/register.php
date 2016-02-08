@@ -1,37 +1,25 @@
 <?php
-//function get_salt()
-//{
-//    $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-//    $salt='$2a$10$';
-//    for($i=0; $i<22; $i++)
-//    {
-//        $random_char= $chars[mt_rand(0,strlen($chars))];
-//        $salt.=$random_char;
-//    }
-//    $salt.=$random_char."$";
-//    return $salt;
-//}
+/*
+ * Error codes:
+ * 1 - Username already used.
+ * 2 - Email already used.
+ * 3 - Database error.
+ * 4 - Invalid post information.
+ * 5 - Invalid email formating.
+ * 6 - Password too short.
+ *
+ */
 session_start();
 include 'DBCommunication.php';
-//                if(isset($_SESSION['username']))
-//                {
-//                    $username = $_SESSION['username'];
-//                    echo "You are logged in as " . $username . "&nbsp;&nbsp;";
-//                    echo "<a href='logout.php'>Log Out</a>";
-//                }
-//                else
-//                {
-//                    echo "<a href='register.php'>Sign Up</a>&nbsp;&nbsp;";
-//                    echo "<a href='login.php'>Log In</a>";
-//                }
-//
-if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQUEST['email'])) {
+header('Content-type: application/json');
+$response_array=array('success' => false,'error_code'=>array(),'message' => '');
+if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['email'])) {
     // Get typed in values and add needed signs.
     try {
         $database = new DBCommunication();
-        $username = $_REQUEST['username'];
-        $password = $_REQUEST['password'];
-        $email = $_REQUEST['email'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $email = $_POST['email'];
         // Check if such username does not exist.
         $query = "SELECT * FROM whwp_User WHERE user_username = :username";
         $database->prepQuery($query);
@@ -44,26 +32,38 @@ if (isset($_REQUEST['username']) && isset($_REQUEST['password']) && isset($_REQU
         $database->execute();
         $emailuse=$database->rowCount();
         if ($username > 0) {
-            echo "Username already in use.";
-        } elseif($emailuse > 0 ) {
-            echo "Email already in use.";
+            array_push($response_array['error_code'], 1);
         }
-        else {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            // Insert these values into a database.
-            $query = "INSERT INTO whwp_User (user_firstname, user_email, user_password, user_ismoderator) VALUES (:username,:email, :hashed_password, 0)";
-            $database->prepQuery($query);
-            $database->bindArrayValue(array('username' => $username, 'hashed_password' => $hashed_password, 'email' => $email));
-            $database->execute();
-            if ($database->rowCount() > 0) {
-                echo "Congratulations! You have registered on our website!";
+        if($emailuse > 0 ) {
+            array_push($response_array['error_code'], 2);
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            array_push($response_array['error_code'], 5);
+        }
+        if(strlen($password)<6){
+            array_push($response_array['error_code'], 6);
+        }
+        if(strlen($password))
+            if(empty($response_array['error_code'])) {
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                // Insert these values into a database.
+                $query = "INSERT INTO whwp_User (user_username, user_email, user_password, user_ismoderator) VALUES (:username,:email, :hashed_password, 0)";
+                $database->prepQuery($query);
+                $database->bindArrayValue(array('username' => $username, 'hashed_password' => $hashed_password, 'email' => $email));
+                $database->execute();
+                if ($database->rowCount() > 0) {
+                    $response_array['success']=true;
+                }
             }
-        }
+        echo json_encode($response_array);
     }
     catch(PDOException $e){
-        echo "<script src = ";
+        array_push($response_array['error_code'], 3);
+        $response_array['message']=$e->getMessage();
+        echo json_encode($response_array);
     }
-
-} else
-    echo "Error";
+} else {
+    array_push($response_array['error_code'], 4);
+    echo json_encode($response_array);
+}
 ?>
