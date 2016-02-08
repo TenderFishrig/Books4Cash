@@ -2,6 +2,13 @@
 session_start();
 include 'DBCommunication.php';
 ?>
+<?php 
+if(isset($_SESSION['username']))
+        {
+            $username = $_SESSION['username'];
+
+        }
+        ?>
 
 <?php
         if(!isset($_SESSION['username']))
