@@ -1,10 +1,4 @@
 // Attach a submit handler to the form
-function removeError(error_codes,error_number){
-    return jQuery.grep(error_codes, function(value) {
-        return value != error_number;
-    });
-}
-
 $( "#registerForm" ).submit(function( event ) {
     // Stop form from submitting normally
     event.preventDefault();
@@ -140,7 +134,7 @@ $( "#registerForm" ).submit(function( event ) {
                         }
 
                     });
-                    data.error_code =removeError(data.error_code,1);
+                    data.error_code.splice( $.inArray(1,data.error_code) ,1 );
                 }
                 if ($.inArray(2, data.error_code) != -1) {
                     $.notify({
@@ -155,7 +149,7 @@ $( "#registerForm" ).submit(function( event ) {
                         }
 
                     });
-                    data.error_code =removeError(data.error_code,2);
+                    data.error_code.splice( $.inArray(2,data.error_code) ,1 );
                 }
                 if ($.inArray(3, data.error_code) != -1) {
                     $.notify({
@@ -170,7 +164,7 @@ $( "#registerForm" ).submit(function( event ) {
                         }
 
                     });
-                    data.error_code =removeError(data.error_code,3);
+                    data.error_code.splice( $.inArray(3,data.error_code) ,1 );
                 }
                 if ($.inArray(4, data.error_code) != -1) {
                     $.notify({
@@ -185,7 +179,7 @@ $( "#registerForm" ).submit(function( event ) {
                         }
 
                     });
-                    data.error_code =removeError(data.error_code,4);
+                    data.error_code.splice( $.inArray(4,data.error_code) ,1 );
                 }
                 if(data.error_code.length!=0){
                     $.notify({

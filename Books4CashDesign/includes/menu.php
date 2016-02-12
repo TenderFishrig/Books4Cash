@@ -40,7 +40,7 @@
                             </div>
                             <input type="submit" value="Log In" name="login" id="custombutton" class="btn">
                             <div class="form-group">
-                                <label><input type="checkbox"> Remember me</label>
+                                <label><input type="checkbox" name="rememberme"> Remember me</label>
                                 <div id="result"></div>
                             </div>
 

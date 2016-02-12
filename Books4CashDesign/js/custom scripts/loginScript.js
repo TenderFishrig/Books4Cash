@@ -7,10 +7,11 @@ $( "#loginForm" ).submit(function( event ) {
     var $form = $(this),
         term = $form.find("input[name='username']").val(),
         term2 = $form.find("input[name='password']").val(),
+        term3 = $form.find("input[name='rememberme']").val(),
         url = $form.attr("action");
 
     // Send the data using post
-    var posting = $.post(url, {username: term, password: term2});
+    var posting = $.post(url, {username: term, password: term2, rememberme: term3});
 
     // Put the results in a div
     posting.done(function (data, status, xhr) {

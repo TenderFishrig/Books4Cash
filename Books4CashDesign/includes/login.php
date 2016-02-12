@@ -26,6 +26,25 @@ try {
             // echo "Congratulations! You have logged in on our website!";
             $_SESSION['user_id'] = $user->user_id;
             $_SESSION['username'] = $user->user_email;
+            $user_id = $_SESSION['user_id'];
+            if (isset($_POST['rememberme'])) // Does NOT work!!
+            {
+                $identifier = hash('md5', $username);
+                $randomString = openssl_random_pseudo_bytes(64);
+                $token = bin2hex($randomString);
+                $query = "UPDATE whwp_user SET identifier = :identifier, token = :token WHERE user_id = :user_id";
+                $conn->prepQuery($query);
+                $conn->bindArrayValue(array('identifier'=>$identifier,'token'=>$token,'user_id'=>$user_id));
+                $conn->bind('identifier', $identifier);
+                $conn->bind('token', $token);
+                $conn->bind('user_id', $user_id);
+                $conn->execute();
+
+                $cookie_name = 'Books4Cash';
+                $cookie_value = $identifier .",". $token;
+                $cookie_length = time() + 31536000; // 1 Year long.
+                setcookie($cookie_name, $cookie_value, $cookie_length, "/");
+            }
             $response_array['success']=true;
             echo json_encode($response_array);
         } else {

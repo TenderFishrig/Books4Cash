@@ -1,5 +1,29 @@
 <?php
 session_start();
+include 'includes/DBCommunication.php';
+if(isset($_COOKIE['Books4Cash']))
+{
+    try {
+        $database = new DBCommunication();
+        $explodedCookie = explode(",", $_COOKIE['Books4Cash']);
+        $identifier = $explodedCookie[0];
+        $token = $explodedCookie[1];
+        $query = "SELECT username,token FROM whwp_user WHERE identifier = :identifier";
+        $database->prepQuery($query);
+        $database->bind('identifier', $identifier);
+        $user = $database->single();
+        if ($database->rowCount() > 0) {
+            $username = $user->username;
+            $user_token = $user->token;
+            if ($token == $user_token) {
+                $_SESSION['username'] = $username;
+            }
+        }
+    }
+    catch(PDOException $e){
+
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
