@@ -40,7 +40,7 @@ session_start();
            <div class="row">
               <section class="col-xs-6 col-md-4 col-md-offset-3">
                 
-               <form action="includes/post.php" method="post" enctype="multipart/form-data">
+               <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data">
            
                <div class="form-group">          
                 <label for="title">Title:</label>
@@ -99,7 +99,7 @@ session_start();
                 </div>
 
             </form>
-
+  <?php include("includes/post.php"); ?>
             </section>
             </div>
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'includes/DBCommunication.php';
+require 'includes/DBCommunication.php';
 if(isset($_COOKIE['Books4Cash']))
 {
     try {

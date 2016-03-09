@@ -10,7 +10,7 @@
  *
  */
 session_start();
-include 'DBCommunication.php';
+require 'DBCommunication.php';
 header('Content-type: application/json');
 $response_array=array('success' => false,'error_code'=>array(),'message' => '');
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['email'])) {

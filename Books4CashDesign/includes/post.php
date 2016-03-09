@@ -1,6 +1,5 @@
 <?php
-session_start();
-include 'DBCommunication.php';
+require 'DBCommunication.php';
 
 if(!isset($_SESSION['username']))
 {

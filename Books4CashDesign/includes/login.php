@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'DBCommunication.php';
+require 'DBCommunication.php';
 //                if(isset($_POST['login']))
 //                {
 header('Content-type: application/json');

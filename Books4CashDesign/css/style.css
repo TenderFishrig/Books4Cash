@@ -3,6 +3,8 @@
 .navbar-default{
 	border: none;
 	background-color: #2AAC86;
+    margin-bottom: 100px;
+
 }
 
 
@@ -70,11 +72,14 @@
 
 #openCategories{
 
-    position: fixed; 
-    top: 0px; 
-    left: 20px;
+
     background-color: #E9E9E9;
     
+}
+
+#postButton{
+
+    background-color: #E9E9E9;
 
 }
 
@@ -211,7 +216,7 @@ body{
 color:#000000;
 }
 
-#menu li a:hover, #login-button:hover, #signup-button:hover, #openCategories:hover {
+#menu li a:hover, #login-button:hover, #signup-button:hover, #openCategories:hover, #postButton:hover {
     text-decoration: none;
     color: #fff;
     background: rgba(255,255,255,0.2);
@@ -292,4 +297,9 @@ color:#000000;
     -webkit-transform: none;
     transform: none;
   }
+}
+
+#searchResults{
+
+    padding-top: 50px;
 }

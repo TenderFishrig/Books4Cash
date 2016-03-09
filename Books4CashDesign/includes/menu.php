@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header"><!-- navbar-header -->
-            <button class="navbar-btn btn btn-default hidden-xs" id ="openCategories">Categories</button><!--toggle categories-->
+            <button class="navbar-btn btn btn-default hidden-xs" id ="openCategories">Search</button><!--toggle categories-->
             <button type="button" class=" navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -18,7 +18,7 @@
 
             <ul class="nav navbar-nav navbar-right" id="menu">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="#" class="visible-xs">Categories</a></li>
+                <li><a href="#" class="visible-xs">Search</a></li>
                 <li>
                     <form action="registration.php">
                         <button id="signup-button" class="btn btn-default navbar-btn">Sign Up</button>
