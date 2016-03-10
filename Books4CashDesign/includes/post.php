@@ -106,9 +106,9 @@ else
                     // Query to check if such tag exists.
                     $query = "SELECT tag_id FROM whwp_Tag WHERE tag_description = :tag";
                     $conn->prepQuery($query);
-                    $conn->bind('tag', $tag);
                     for ($i = 0; $i < $numberOfTags; $i++) {
                         $tag = $tags[$i];
+                        $conn->bind('tag', $tag);
                         $t = $conn->single();
                         if ($conn->rowCount() == 0) {
                             array_push($tagsToAdd, $tag);
@@ -139,9 +139,11 @@ else
                     $query = "INSERT INTO whwp_AdTag (adtag_advert, adtag_tag) "
                         . "VALUES (:advert_id, :tag_id)";
                     $conn->prepQuery($query);
-                    $conn->bindArrayValue(array('advert_id' => $advert_id, 'tag_id' => $tag_id));
+                    //$conn->bindArrayValue(array('advert_id' => $advert_id, 'tag_id' => $tag_id));
+                    $conn->bind('advert_id',$advert_id);
                     for ($i = 0; $i < $numberOfTags; $i++) {
                         $tag_id = $tagIdsStored[$i];
+                        $conn->bind('tag_id',$tag_id);
                         $conn->execute();
                     }
                     $conn->endTransaction();

@@ -8,13 +8,13 @@ if(isset($_COOKIE['Books4Cash']))
         $explodedCookie = explode(",", $_COOKIE['Books4Cash']);
         $identifier = $explodedCookie[0];
         $token = $explodedCookie[1];
-        $query = "SELECT username,token FROM whwp_user WHERE identifier = :identifier";
+        $query = "SELECT user_username, user_token FROM whwp_User WHERE user_indentifier = :identifier";
         $database->prepQuery($query);
         $database->bind('identifier', $identifier);
         $user = $database->single();
         if ($database->rowCount() > 0) {
-            $username = $user->username;
-            $user_token = $user->token;
+            $username = $user->user_username;
+            $user_token = $user->user_token;
             if ($token == $user_token) {
                 $_SESSION['username'] = $username;
             }

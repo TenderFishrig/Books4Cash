@@ -11,10 +11,14 @@ class DBCommunication
     public function __construct()
     {
         $options = array(
-            PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         );
         $this->conn = new PDO('mysql:host='.$this->host.';dbname='.$this->dbname, $this->login, $this->password, $options);
+    }
+
+    public function __destructor(){
+        $conn=null;
+        $stmt=null;
     }
 
     public function beginTransaction(){

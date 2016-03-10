@@ -32,12 +32,9 @@ try {
                 $identifier = hash('md5', $username);
                 $randomString = openssl_random_pseudo_bytes(64);
                 $token = bin2hex($randomString);
-                $query = "UPDATE whwp_user SET identifier = :identifier, token = :token WHERE user_id = :user_id";
+                $query = "UPDATE whwp_User SET user_indentifier = :identifier, user_token = :token WHERE user_id = :user_id";
                 $conn->prepQuery($query);
                 $conn->bindArrayValue(array('identifier'=>$identifier,'token'=>$token,'user_id'=>$user_id));
-                $conn->bind('identifier', $identifier);
-                $conn->bind('token', $token);
-                $conn->bind('user_id', $user_id);
                 $conn->execute();
 
                 $cookie_name = 'Books4Cash';
