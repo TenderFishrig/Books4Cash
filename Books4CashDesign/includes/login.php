@@ -10,7 +10,7 @@ try {
     $conn = new DBCommunication();
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $query = "SELECT * FROM whwp_User WHERE user_email = :username";
+    $query = "SELECT * FROM whwp_User WHERE user_username = :username";
     $conn->prepQuery($query);
     $conn->bind('username', $username);
     if ($user = $conn->single()) {
@@ -18,7 +18,7 @@ try {
         {
             if (password_needs_rehash($user->user_password, PASSWORD_DEFAULT)) {
                 $new_hash = password_hash($password, PASSWORD_DEFAULT);
-                $query = "UPDATE whwp_User SET user_password=(:hashed_password) WHERE user_email=(:username)";
+                $query = "UPDATE whwp_User SET user_password=(:hashed_password) WHERE user_username=(:username)";
                 $conn->prepQuery($query);
                 $conn->bindArrayValue(array('hashed_password' => $new_hash, 'username' => $user->username));
                 $conn->execute();

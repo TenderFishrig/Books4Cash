@@ -9,6 +9,8 @@
  * 6 - Password too short.
  *
  */
+
+//TODO create separete
 session_start();
 require 'DBCommunication.php';
 header('Content-type: application/json');

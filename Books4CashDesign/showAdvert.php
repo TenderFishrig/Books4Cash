@@ -85,7 +85,7 @@ include "includes/DBCommunication.php";
             $author = $resultset->advert_bookauthor;
             $user = $resultset->advert_owner;
             $username = $resultset->user_firstname;
-            //$description = $resultset -> description;
+            $description = $resultset -> advert_description;
 
             $query = "SELECT whwp_Image.image_location FROM whwp_Advert "
                 . "JOIN whwp_AdImage ON whwp_Advert.advert_id = whwp_AdImage.adimage_advert "
@@ -95,12 +95,12 @@ include "includes/DBCommunication.php";
             $conn->bind('advert_id',$advert_id);
             $image=$conn->resultset();
             foreach ($image as $element) {
-                echo "<img src = itemPhotos/" . ($element->image_location) . " alt=" . $title . " title=" . $title . "<br/>";
+                echo "<img src = includes/temp/" . ($element->image_location) . " alt=" . $title . " title=" . $title . "<br/>";
             }
             echo "Price: " . $price . "<br/>";
             echo "Title: " . $title . "<br/>";
             echo "Author: " . $author . "<br/>";
-            // echo "Description: " . $description . "<br/>";
+             echo "Description: " . $description . "<br/>";
             echo "Posted by: <a href='user.php?user_id=$user'>" . $username . "</a><br/>";
             echo "<hr/>";
         }

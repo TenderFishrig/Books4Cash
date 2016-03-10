@@ -106,7 +106,7 @@ include 'DBCommunication.php';
                             $conn = new DBCommunication();
                             $conn->beginTransaction();
                             // Get user, who is logged in and posting ad, id
-                            $query = "SELECT user_id FROM whwp_User WHERE user_email = :username";
+                            $query = "SELECT user_id FROM whwp_User WHERE user_username = :username";
                             $conn->prepQuery($query);
                             $conn->bind('username', $username);
                             $resultset = $conn->single();

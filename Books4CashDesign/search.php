@@ -139,7 +139,6 @@ require ('includes/DBCommunication.php');
 
      <script src="js/bootstrap/jquery-2.2.0.min.js"></script>
      <script src="js/bootstrap/bootstrap.min.js"></script>
-     <script src="js/custom scripts/script.js"></script>
      <script src="js/custom scripts/EffectsIndex.js"></script>
      <script src="js/bootstrap/bootstrap-notify.min.js"></script>
 

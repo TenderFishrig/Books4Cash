@@ -102,4 +102,5 @@ class DBCommunication
     public function lastInsertId(){
         return $this->conn->lastInsertId();
     }
+
 }

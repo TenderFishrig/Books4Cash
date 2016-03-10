@@ -93,6 +93,8 @@ $( "#registerForm" ).submit(function( event ) {
 
     if(validator) {
         // Get some values from elements on the page:
+        //TODO hook up secondary user info script to page.
+
         var $form = $(this),
             term = $form.find("input[name='username']").val(),
             term2 = $form.find("input[name='password']").val(),
