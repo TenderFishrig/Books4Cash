@@ -13,7 +13,20 @@ $( "#loginForm" ).submit(function( event ) {
     // Send the data using post
     var posting = $.post(url, {username: term, password: term2, rememberme: term3});
 
-    // Put the results in a div
+    posting.fail(function(n){
+        $.notify({
+            title: '<strong>Error!</strong>',
+            message: "Unable to connect to the server.",
+
+        }, {
+            type: 'warning',
+            offset: {
+                x: 150,
+                y: 80
+            }
+        });
+    });
+
     posting.done(function (data, status, xhr) {
         if(data.success) {
             setTimeout(function () {

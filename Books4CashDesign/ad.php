@@ -43,20 +43,41 @@ include("includes/sidebar.php");
             <form id="postForm" action="includes/post.php" enctype="multipart/form-data">
 
                 <div class="form-group">
-                    <label for="title">Title:</label>
+                    <label for="title">Title*:</label>
                     <input class="form-control" type="text" id="title" name="title">
                 </div>
 
                 <div class="form-group">
-                    <label for="price">Price:</label>
+                    <label for="author">Author:</label>
+                    <input class="form-control" type="text" id="author" name="author">
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select name="category" id="category">
+                        <option value="1">Not Set</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="condition">Condition:</label>
+                    <select name="condition" id="condition">
+                        <option value="1">New</option>
+                        <option value="2">Used</option>
+                        <option value="3">Poor</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price*:</label>
                     <div class="input-group">
-                        <input class="form-control" type="number" min="0" step="0.01" id="price" name="price">
+                        <input class="form-control" type="number" min="0" max="1000" step="0.01" id="price" name="price">
                         <div class="input-group-addon">£</div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="description">Description:</label><br>
+                    <label for="description">Description*:</label><br>
                     <textarea id="description" name="description" rows="5" cols='50'></textarea>
                 </div>
 
@@ -68,7 +89,7 @@ include("includes/sidebar.php");
 
                 <div>
                     <div class="form-group">
-                        <label for="tag1">Tag 1:</label>
+                        <label for="tag1">Tag 1*:</label>
                         <input class="form-control" type="text" id="tag1" maxlength="50" name="tag1">
                     </div>
 

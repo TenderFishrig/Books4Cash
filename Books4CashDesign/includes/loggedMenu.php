@@ -23,7 +23,7 @@
                 
                 <ul class="nav navbar-nav navbar-right" id="menu">
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="#">Account</a></li>
+                    <li><a href="userPage.php">Account</a></li>
                     <li><a href="#">Messages</a></li>
                     <li><a href="#" class="visible-xs">Search</a></li> 
                     <?php echo "<li><p class=\"navbar-text\"> Welcome, $username</p></li>"; ?>                     

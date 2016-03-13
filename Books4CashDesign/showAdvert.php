@@ -37,28 +37,6 @@ include "includes/DBCommunication.php";
 
 <div class="container">
 
-    <div id="header">
-        <img src="images/logo.png" alt="logo"/>
-        <a id='post' href='post.php'><img src="images/post.png" alt="post" title='post'/></a>
-
-    </div>
-    <div id="menu">
-        <a href='#'>Advanced Search</a>&nbsp;&nbsp;
-        <a href='#'>Contact Us</a>&nbsp;&nbsp;
-        <?php
-        if(isset($_SESSION['username']))
-        {
-            $username = $_SESSION['username'];
-            echo "You are logged in as " . $username . "&nbsp;&nbsp;";
-            echo "<a href='logout.php'>Log Out</a>";
-        }
-        else
-        {
-            echo "<a href='register.php'>Sign Up</a>&nbsp;&nbsp;";
-            echo "<a href='login.php'>Log In</a>";
-        }
-        ?>
-    </div>
     <div id="content">
         <?php
         // Getting the id of the advertisement
@@ -95,7 +73,7 @@ include "includes/DBCommunication.php";
             $conn->bind('advert_id',$advert_id);
             $image=$conn->resultset();
             foreach ($image as $element) {
-                echo "<img src = includes/temp/" . ($element->image_location) . " alt=" . $title . " title=" . $title . "<br/>";
+                echo "<img src = uploadedImages/" . ($element->image_location) . " alt=" . $title . " title=" . $title . "<br/>";
             }
             echo "Price: " . $price . "<br/>";
             echo "Title: " . $title . "<br/>";
@@ -125,7 +103,7 @@ include "includes/DBCommunication.php";
                 $date_time = gmdate('Y-m-d H:i:s');
                 if(isset($_SESSION['user_id']))
                 {
-                    //$user_id = $_SESSION['user_id'];
+                    $user_id = $_SESSION['user_id'];
                     if(!empty($_POST['comment']))
                     {
                         $comment = $_POST['comment'];

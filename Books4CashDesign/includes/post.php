@@ -10,8 +10,7 @@ session_start();
 require 'DBCommunication.php';
 header('Content-type: application/json');
 
-//TODO support for multiple images upload.
-//TODO generate random image names to avoid collision.
+//TODO support for multiple images upload?
 
 $response_array=array('success' => false,'error_code'=>array(),'message' => '');
 if(!isset($_SESSION['username']))
@@ -21,36 +20,45 @@ if(!isset($_SESSION['username']))
 else
 {
     $username = $_SESSION['username'];
-    if(!empty($_POST['price']) && !empty($_POST['title']) && !empty($_POST['description']) && !empty($_POST['tags']))
+    if(!empty($_POST['price']) && !empty($_POST['category']) && !empty($_POST['title']) && !empty($_POST['description']) && !empty($_POST['tags']))
     {
         $price = $_POST['price'];
         $title = $_POST['title'];
         $description = $_POST['description'];
         $tags=$_POST['tags'];
+        $category_id=$_POST['category'];
         if(isset($_FILES["image"]["type"])){
-            $validextensions = array("JPEG", "JPG", "PNG");
+            $validextensions = array("jpeg", "jpg", "png");
             $temporary = explode(".", $_FILES["image"]["name"]);
-            $file_extension = end($temporary);
+            $file_extension = strtolower(end($temporary));
             if ((($_FILES["image"]["type"] == "image/png") || ($_FILES["image"]["type"] == "image/jpg") || ($_FILES["image"]["type"] == "image/jpeg")
                 ) && ($_FILES["image"]["size"] < 10000000)//Approx. 10mb files can be uploaded.
-                && in_array(strtoupper($file_extension), $validextensions)) {
+                && in_array($file_extension, $validextensions)) {
                 if ($_FILES["image"]["error"] > 0)
                 {
                     //TODO add error code.
                 }
                 else
                 {
-                    if (file_exists(__DIR__."/temp/".$_FILES["image"]["name"])) {
-                       $image=$_FILES['image']['name'];
+                    $image=uniqid('', true).".".$file_extension;
+                    While(file_exists(__DIR__."/../uploadedImages/".$image)){
+                        $image=uniqid('', true).".".$file_extension;
                     }
-                    else
-                    {
-                        $sourcePath = $_FILES['image']['tmp_name']; // Storing source path of the file in a variable
-                        $image=$_FILES['image']['name'];
-                        $filepath =__DIR__ ."/temp/".basename($image); // Target path where file is to be stored
-                        if(is_uploaded_file($sourcePath)) move_uploaded_file($sourcePath,$filepath);
-                        //TODO generate thumbnail??
-                    }
+
+                    $sourcePath = $_FILES['image']['tmp_name']; // Storing source path of the file in a variable
+                    $filepath =__DIR__ ."/../uploadedImages/".basename($image); // Target path where file is to be stored
+                    if(is_uploaded_file($sourcePath)) move_uploaded_file($sourcePath,$filepath);
+                    if($file_extension=='jpeg' || $file_extension=='jpg')
+                        $img = imagecreatefromjpeg( $filepath );
+                    elseif($file_extension=='png')
+                        $img = imagecreatefrompng( $filepath );
+                    $width = imagesx( $img );
+                    $height = imagesy( $img );
+                    $new_width = 200;
+                    $new_height = floor( $height * ( $new_width / $width ) );
+                    $tmp_img = imagecreatetruecolor( $new_width, $new_height );
+                    imagecopyresized( $tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
+                    imagejpeg( $tmp_img, __DIR__ ."/../thumbnails/".basename($image) );
                 }
             }
         }
@@ -66,13 +74,25 @@ else
             $resultset = $conn->single();
             $user_id = $resultset->user_id;
             // Insert some data to the database.
-            $query = "INSERT INTO whwp_Advert (advert_owner, advert_price, advert_bookname, advert_date, advert_description) "
-                . "VALUES (:user_id, :price, :title, :date, :description)";
+            $query = "INSERT INTO whwp_Advert (advert_owner, advert_price, advert_bookname, advert_date, advert_description, advert_category) "
+                . "VALUES (:user_id, :price, :title, :date, :description, :category)";
             $conn->prepQuery($query);
-            $conn->bindArrayValue(array('user_id' => $user_id, 'price' => $price, 'title' => $title, 'date' => gmdate('Y-m-d'), 'description' => $description));
+            $conn->bindArrayValue(array('user_id' => $user_id, 'price' => $price, 'title' => $title, 'date' => gmdate('Y-m-d'), 'description' => $description, 'category'=>$category_id));
             $conn->execute();
             // Get the auto generated advert_id.
             $advert_id = $conn->lastInsertId();
+            if(isset($_POST['condition'])){
+                $query="UPDATE whwp_Advert SET advert_bookcondition=:condition WHERE advert_id = :advert_id";
+                $conn->prepQuery($query);
+                $conn->bindArrayValue(array('advert_author'=>$_POST['condition'],'advert_id'=>$advert_id));
+                $conn->execute();
+            }
+            if(isset($_POST['author'])){
+                $query="UPDATE whwp_Advert SET advert_bookauthor=:advert_author WHERE advert_id = :advert_id";
+                $conn->prepQuery($query);
+                $conn->bindArrayValue(array('advert_author'=>$_POST['author'],'advert_id'=>$advert_id));
+                $conn->execute();
+            }
             if (isset($image)) {
                 // Insert image data into table
                 $query = "INSERT INTO whwp_Image (image_location) "

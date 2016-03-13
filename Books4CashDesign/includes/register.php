@@ -13,6 +13,7 @@
 //TODO create separete
 session_start();
 require 'DBCommunication.php';
+require 'crypting.php';
 header('Content-type: application/json');
 $response_array=array('success' => false,'error_code'=>array(),'message' => '');
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['email'])) {
@@ -28,16 +29,8 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['emai
         $database->bind('username', $username);
         $database->execute();
         $usernameuse=$database->rowCount();
-        $query = "SELECT * FROM whwp_User WHERE user_email = :email";
-        $database->prepQuery($query);
-        $database->bind('email', $email);
-        $database->execute();
-        $emailuse=$database->rowCount();
-        if ($username > 0) {
+        if ($usernameuse > 0) {
             array_push($response_array['error_code'], 1);
-        }
-        if($emailuse > 0 ) {
-            array_push($response_array['error_code'], 2);
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             array_push($response_array['error_code'], 5);
@@ -47,25 +40,27 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['emai
         }
         if(strlen($password))
             if(empty($response_array['error_code'])) {
+                $email=encrypt($email);
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                 // Insert these values into a database.
                 $query = "INSERT INTO whwp_User (user_username, user_email, user_password, user_ismoderator) VALUES (:username,:email, :hashed_password, 0)";
                 $database->prepQuery($query);
                 $database->bindArrayValue(array('username' => $username, 'hashed_password' => $hashed_password, 'email' => $email));
                 $database->execute();
+                $user_id=$database->lastInsertId();
                 if ($database->rowCount() > 0) {
                     $response_array['success']=true;
+                    $_SESSION['user_id'] = $user_id;
+                    $_SESSION['username'] = $username;
                 }
             }
-        echo json_encode($response_array);
     }
     catch(PDOException $e){
         array_push($response_array['error_code'], 3);
         $response_array['message']=$e->getMessage();
-        echo json_encode($response_array);
     }
 } else {
     array_push($response_array['error_code'], 4);
-    echo json_encode($response_array);
 }
+echo json_encode($response_array);
 ?>

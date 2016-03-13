@@ -1,8 +1,6 @@
 <?php
 session_start();
 require 'DBCommunication.php';
-//                if(isset($_POST['login']))
-//                {
 header('Content-type: application/json');
 $response_array=array('success' => false,'error_code' => 0,'message'=>'');
 try {
@@ -25,7 +23,7 @@ try {
             }
             // echo "Congratulations! You have logged in on our website!";
             $_SESSION['user_id'] = $user->user_id;
-            $_SESSION['username'] = $user->user_email;
+            $_SESSION['username'] = $user->user_username;
             $user_id = $_SESSION['user_id'];
             if (isset($_POST['rememberme'])) // Does NOT work!!
             {
@@ -43,22 +41,16 @@ try {
                 setcookie($cookie_name, $cookie_value, $cookie_length, "/");
             }
             $response_array['success']=true;
-            echo json_encode($response_array);
         } else {
             $response_array['error_code']=1;
-            echo json_encode($response_array);
-            //header("Location: https://selene.hud.ac.uk/u1467200/login.php");
         }
     } else {
         $response_array['error_code']=1;
-        echo json_encode($response_array);
-        //header("Location: ../index.php");
     }
 }
 catch(PDOException $e){
     $response_array['error_code']=2;
     $response_array['message']=$e->getMessage();
-    echo json_encode($response_array);
 }
-//                }
+echo json_encode($response_array);
 ?>

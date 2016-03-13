@@ -10,6 +10,36 @@ function AdditionEvent() {
     }
 }
 
+$(document).ready(function (n){
+    var items="";
+    $.getJSON("includes/getCategories.php",function(data){
+        if(data.success) {
+            $.each(data.data, function (index, item) {
+                if(item.advert_id!=1)
+                items += "<option value='" + item.category_id + "'>" + item.category_Description + "</option>";
+            });
+            $("#category").html(items);
+        }
+        else{
+            if ($(this).find("input[name='title']").val().length == 0) {
+                $.notify({
+                    title: '<strong>Error!</strong>',
+                    message: 'Either server is down or database is down. Please try again later.',
+
+                }, {
+                    type: 'warning',
+                    offset: {
+                        x: 150,
+                        y: 80
+                    },
+
+
+                });
+            }
+        }
+    });
+});
+
 function AddInput() {
     var cnt = $("input[name*='tag']", $("#postForm")).size() + 1;
     $("<div class='form-group'><label for='tag"+cnt+"'>Tag "+cnt+":</label><input class='form-control' type='text' maxlength='50' name='tag" + cnt+ "' id='tag" + cnt+ "' /></div>").insertAfter("#postForm input[name*='tag']:last");
@@ -61,6 +91,23 @@ $( "#postForm" ).submit(function( event ) {
         validator=false;
     }
 
+    if ($(this).find("textarea[name='description']").val().length == 0) {
+
+        $.notify({
+            title: '<strong>Error!</strong>',
+            message: 'Please, enter a description.',
+
+        }, {
+            type: 'warning',
+            offset: {
+                x: 150,
+                y: 80
+            }
+
+        });
+        validator=false;
+    }
+
     if(validator) {
 
         var formData = new FormData();
@@ -68,29 +115,44 @@ $( "#postForm" ).submit(function( event ) {
         formData.append('image', $('input[type=file]')[0].files[0]);
 
         var tags = $("input[name*='tag']").map(function() {
-            //if(this.value.length==0) return 0;
             return this.value ? this.value : null;
         }).get();
         // Get some values from elements on the page:
-        //var $form = $(this),
-            //term = $form.find("input[name='title']").val(),
-            //term2 = $form.find("input[name='price']").val(),
-            //term3 = $form.find("textarea[name='description']").val(),
         var url = $(this).attr("action");
+
+        if ($(this).find("input[name='author']").val().length != 0) {
+            formData.append('author',$(this).find("input[name='title']").val());
+        }
 
         formData.append('title',$(this).find("input[name='title']").val());
         formData.append('price',$(this).find("input[name='price']").val());
         formData.append('description',$(this).find("input[name='description']").val());
         formData.append('tags[]',tags);
+        formData.append('category',$( "#category option:selected" ).val());
+        formData.append('condition',$( "#condition option:selected" ).val());
 
         // Send the data using post
-        //var posting = $.post(url, formData);
         var posting =$.ajax({
             url: url,
             data: formData,
             processData: false,
             contentType: false,
-            type: 'POST'
+            type: 'POST',
+            dataType: "json"
+        });
+
+        posting.fail(function(n){
+            $.notify({
+                title: '<strong>Error!</strong>',
+                message: "Unable to connect to the server.",
+
+            }, {
+                type: 'warning',
+                offset: {
+                    x: 150,
+                    y: 80
+                }
+            });
         });
 
         // Put the results in a div
