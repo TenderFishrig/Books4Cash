@@ -66,11 +66,32 @@
                       <div class="checkbox">
                         <label>
                           <input type="checkbox" name="terms" id="terms">
-                          <p>I agree with Terms &amp; Conditions</p>
+                          <p>I agree with <a href ="#termsModal"   data-toggle="modal" data-target="#termsModal">Terms &amp; Conditions</a></p>
                         </label>
                       </div>
                     </div>
 
+                  <!-- Modal -->
+          <div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title" id="termsModal">Terms &amp; Conditions</h4>
+                </div>
+                <div class="modal-body">
+                <p style="text-align: justify;">The correctness and accuracy of the information posted on our book advertisements is subject to, and responsibility of, the owner. Books4Cash takes no responsibility for books that are not as stated.  Sellers are not permitted to post advertisements for books that are not completely authentic to the description they have provided. This would be a breach of the site rules.
+              Books4Cash have recommended a public place (i.e. the local Student Union) to make an exchange. We take no responsibility or liability for any such events that transpire at an exchange. The risk is purely in the hands of the buyer and seller.</p>
+
+              <p style="text-align: justify;"><strong>We endeavour to keep the website up and running smoothly. However, Books4Cash takes no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.</strong></p>
+
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>             
+                </div>
+              </div>
+            </div>
+          </div>
 
                        <button id="submit" type="submit" class="btn btn-default">Register</button>
               </form><!--registration form-->

@@ -1,7 +1,22 @@
 <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
+    <div class="container id ="menuContainer"">
         <div class="navbar-header"><!-- navbar-header -->
-            <button class="navbar-btn btn btn-default hidden-xs" id ="openCategories">Search</button><!--toggle categories-->
+             <div id="form col-md-4">
+                    
+                    <form class="navbar-form" id="searchForm" action="search.php" method="get">
+                    <div class="input-group">
+                        
+                        <input type="text" class="form-control" name="search" placeholder="Search" id="search" value="<?php 
+                            if (isset($_GET['search'])) echo $_GET['search']; ?>">
+                            <div class="input-group-btn">
+                                 <button class="btn btn-default" type="submit" name"Search" value="Search"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                    </div>
+                     <button type="button" class="navbar-btn btn btn-default hidden-xs btn-xs" id ="openCategories">Advanced Options</button><!--toggle categories-->
+                    </form>
+                   
+                </div> 
+            
             <button type="button" class=" navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -54,4 +69,3 @@
         </div><!-- collapse navbar-collapse -->
     </div><!-- container -->
 </nav>
-
