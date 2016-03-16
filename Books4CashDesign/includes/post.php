@@ -82,9 +82,9 @@ else
             // Get the auto generated advert_id.
             $advert_id = $conn->lastInsertId();
             if(isset($_POST['condition'])){
-                $query="UPDATE whwp_Advert SET advert_bookcondition=:condition WHERE advert_id = :advert_id";
+                $query="UPDATE whwp_Advert SET advert_condition=:condition WHERE advert_id = :advert_id";
                 $conn->prepQuery($query);
-                $conn->bindArrayValue(array('advert_author'=>$_POST['condition'],'advert_id'=>$advert_id));
+                $conn->bindArrayValue(array('condition'=>$_POST['condition'],'advert_id'=>$advert_id));
                 $conn->execute();
             }
             if(isset($_POST['author'])){

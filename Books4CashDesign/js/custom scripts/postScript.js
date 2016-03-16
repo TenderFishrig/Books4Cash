@@ -126,7 +126,7 @@ $( "#postForm" ).submit(function( event ) {
 
         formData.append('title',$(this).find("input[name='title']").val());
         formData.append('price',$(this).find("input[name='price']").val());
-        formData.append('description',$(this).find("input[name='description']").val());
+        formData.append('description',$(this).find("textarea[name='description']").val());
         formData.append('tags[]',tags);
         formData.append('category',$( "#category option:selected" ).val());
         formData.append('condition',$( "#condition option:selected" ).val());

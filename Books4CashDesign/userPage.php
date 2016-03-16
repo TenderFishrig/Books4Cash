@@ -17,7 +17,7 @@ session_start();
 <body>
 
 <?php
-if(isset($_SESSION['username']))
+if(isset($_SESSION['user_id']))
 {
     include("includes/loggedMenu.php");
 }
@@ -51,28 +51,31 @@ include("includes/sidebar.php");
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email address:</label>
-                    <input type="email" name="email" class="form-control" id="email">
+                    <label for="old_password">Password:</label>
+                    <input type="password" class="form-control" name="old_password" id="old_password">
                 </div>
 
-                <div class="form-group">
-                    <label for="old_password"> Old Password:</label>
-                    <input type="password" class="form-control" name="old_password" id=old_"password">
-                </div>
+                <div id="importantFields">
 
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control" name="password" id="password">
-                </div>
+                    <div class="form-group">
+                        <label for="email">Email address:</label>
+                        <input type="email" name="email" class="form-control" id="email" disabled="true">
+                    </div>
 
-                <div class="form-group" id="confirmation">
-                    <label for="confirm_password">Re-enter password:</label>
-                    <input type="password" name="confirm_password" class="form-control" id="confirm_password">
+                    <div class="form-group">
+                        <label for="password">New Password:</label>
+                        <input type="password" class="form-control" name="password" id="password" disabled="true">
+                    </div>
+
+                    <div class="form-group" id="confirmation">
+                        <label for="confirm_password">Re-enter new password:</label>
+                        <input type="password" name="confirm_password" class="form-control" id="confirm_password" disabled="true">
+                    </div>
                 </div>
 
                 <button id="cancel" onclick="updateView()" type="button" class="btn btn-default">Cancel</button>
 
-                <button id="submit" type="submit" class="btn btn-default">Update</button>
+                <button id="submit" type="submit" class="btn btn-default">Update All</button>
             </form>
 
 

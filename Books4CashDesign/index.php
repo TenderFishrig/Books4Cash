@@ -42,7 +42,7 @@ if(isset($_COOKIE['Books4Cash']))
 		
     <?php 
 
-   if(isset($_SESSION['username']))
+   if(isset($_SESSION['user_id']))
     {
 
    include("includes/loggedMenu.php");

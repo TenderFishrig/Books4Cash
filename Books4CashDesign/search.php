@@ -19,7 +19,7 @@ require ('includes/DBCommunication.php');
 <div class="container" style="margin-bottom: 50px">
  <?php 
 
-   if(isset($_SESSION['username']))
+   if(isset($_SESSION['user_id']))
     {
 
    include("includes/loggedMenu.php");

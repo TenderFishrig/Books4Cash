@@ -39,6 +39,15 @@ function updateView (n){
         });
     });}
 
+$( "#old_password").on('input',function(n){
+    if($(this).val().length==0){
+        $( "#importantFields").find('*').prop('disabled',true);
+    }
+    else {
+        $( "#importantFields").find('*').prop('disabled',false);
+    }
+});
+
 $(document).ready(updateView());
 
 $( "#dataUpdateForm" ).submit(function( event ) {

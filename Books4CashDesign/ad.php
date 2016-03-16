@@ -18,7 +18,7 @@ session_start();
 
 <?php
 
-if(isset($_SESSION['username']))
+if(isset($_SESSION['user_id']))
 {
 
     include("includes/loggedMenu.php");
@@ -83,19 +83,18 @@ include("includes/sidebar.php");
 
                 <div class="form-control-file">
                     <label for="photo">Photo:</label>
-                    <input type="file" name="image" id="image" multiple accept="image/x-png, image/gif, image/jpeg, image/jpg" />
+                    <input type="file" name="image" id="image" multiple accept="image/x-png, image/jpeg, image/jpg" />
                 </div>
 
 
-                <div>
-                    <div class="form-group">
-                        <label for="tag1">Tag 1*:</label>
-                        <input class="form-control" type="text" id="tag1" maxlength="50" name="tag1">
-                    </div>
+                <div class="form-group">
+                    <label for="tag1">Tag 1*:</label>
+                    <input class="form-control" type="text" id="tag1" maxlength="50" name="tag1">
+                </div>
 
-                    <div class="form-group">
-                        <input class="form-control" type="submit" name="submit" value="Submit ad!" />
-                    </div>
+                <div class="form-group">
+                    <input class="form-control" type="submit" name="submit" value="Submit ad!" />
+                </div>
 
             </form>
         </section>
