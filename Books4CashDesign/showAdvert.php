@@ -16,6 +16,7 @@ include "includes/DBCommunication.php";
 
 </head>
 <body>
+<div class="container">
 <?php
 
 if(isset($_SESSION['user_id']))
@@ -156,13 +157,17 @@ catch(PDOException $e) {
 }
 ?>
 </div>
-<div id="footer">
 
 </div>
 </div>
+</div>
+
+<div id="footer">
+
 <footer>
     <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>
 </footer>
+</div>
 
 </body>
 </html>

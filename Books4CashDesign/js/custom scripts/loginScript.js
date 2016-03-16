@@ -21,7 +21,7 @@ $( "#loginForm" ).submit(function( event ) {
         }, {
             type: 'warning',
             offset: {
-                x: 150,
+                x: 730,
                 y: 80
             }
         });
@@ -33,13 +33,13 @@ $( "#loginForm" ).submit(function( event ) {
                 document.location.assign("./index.php");
             }, 2000);
             $.notify({
-                title: '<strong>Success!</strong>',
-                message: 'I\'m so impressed.',
+                title: '<strong>Okay!</strong>',
+                message: 'Login Successful',
 
             }, {
                 type: 'success',
                 offset: {
-                    x: 150,
+                    x: 730,
                     y: 80
                 }
 
@@ -53,7 +53,7 @@ $( "#loginForm" ).submit(function( event ) {
             },{
                 type: 'danger',
                 offset: {
-                    x : 150,
+                    x : 730,
                     y : 80
                 }
 
@@ -67,7 +67,7 @@ $( "#loginForm" ).submit(function( event ) {
             },{
                 type: 'danger',
                 offset: {
-                    x : 150,
+                    x : 730,
                     y : 80
                 }
 
@@ -81,7 +81,7 @@ $( "#loginForm" ).submit(function( event ) {
             },{
                 type: 'danger',
                 offset: {
-                    x : 150,
+                    x : 730,
                     y : 80
                 }
 

@@ -61,9 +61,9 @@ require ('includes/DBCommunication.php');
                                 // Counts how many results were returned from the search.
                                 $count = $conn->single()->count;
                                 if ($count ==1) {
-                                    echo "<p>Your search provided 1 result</p>";
+                                    echo "<p><strong>Your search provided 1 result</strong></p>";
                                 } else {
-                                    echo "<p>Your search provided " . $count . " results</p>";
+                                    echo "<p><strong>Your search provided " . $count . " results</strong></p>";
                                 }
                                 // Paging system
                                 if (isset($_GET["page"])) {
@@ -78,7 +78,7 @@ require ('includes/DBCommunication.php');
                                 //$start_from = ($page-1) * 10;
                                 $start_from = ($page - 1) * 10;
                                 // How many results per one page
-                                $pageLimit = 10;
+                                $pageLimit = 12;
                                 $query = "SELECT DISTINCT whwp_Advert.* FROM whwp_Advert, whwp_AdTag, whwp_Tag "
                                     . "WHERE whwp_Tag.tag_description LIKE :search_string "
                                     . "AND whwp_Tag.tag_id = whwp_AdTag.adtag_tag "
@@ -88,37 +88,38 @@ require ('includes/DBCommunication.php');
                                 $conn->prepQuery($query);
                                 $conn->bind('search_string', $search_string);
                                 $advert=$conn->resultset();
-                                echo "<table class=\"table\">";
-                                echo "<thead>";
-                                echo "<tr>";
-                                echo "<th>ID</th>";
-                                echo "<th>Book name</th>";
-                                echo "<th>Price</th>";
-                                echo "</tr>";
-                                echo "</thead>";
-                                echo "<tbody>";
-                                
-
+                               echo "<div class=\"row text-center pull-right\">";
+                              
                                 foreach ($advert as $element) {
-        echo "<tr>";                   
-        echo "<td><a href='showAdvert.php?advert_id=". $element->advert_id . "'></td>";
-        echo "<td>" . $element->advert_bookname ."</td>";
-        echo "<td>" . $element->advert_price . "</td>";
-        echo "</tr>";  
-     
-}
-   
-        echo "</tbody>";
-        echo "</table>";
+       
 
-                               
+              
+                  echo "<div class=\"col-lg-4 col-sm-6 searchItem\">"; 
+                  echo "<h4>" . $element->advert_bookname ."</h4>";
+                   echo "<p>Price: " . $element->advert_price . "£</p>";
+                       echo "<button type=\"button\" class=\"btn btn-default btn-xs openAd\"><a href='showAdvert.php?advert_id=". $element->advert_id . "'>Open Ad</a></button>";
+                  echo "</div>";
+                 
+             
+        }
+                
+             
+                            
                                 // Determining how many pages will be needed and outputting them.
                                 $totalPages = ceil($count / $pageLimit);
+                                if($totalPages > 1)
+                                {
+                             
+                                echo "<div class=\"container\">";
                                 echo "<ul class=\"pagination\">";
+
                                 for ($i = 1; $i <= $totalPages; $i++) {
                                     echo "<li><a href='search.php?search=$search_term&Search=Search&page=$i'>$i</a></li> ";
                                 }
                                 echo "</ul>";
+
+                                echo "</div>";
+                            }
                             }
                             catch (PDOException $e){
                                 echo 'Something went wrong.';
@@ -129,6 +130,7 @@ require ('includes/DBCommunication.php');
                             echo "Please enter a search term!";
                         }
                     }
+                     
                 ?>    
                 
 </div>
