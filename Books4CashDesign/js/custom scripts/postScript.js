@@ -1,3 +1,4 @@
+
 function AllInputsFilled() {
     return $("input[name*='tag']", $("#postForm")).filter(function() {
             return $(this).val().trim() === "";
@@ -44,7 +45,6 @@ function AddInput() {
     var cnt = $("input[name*='tag']", $("#postForm")).size() + 1;
     $("<div class='form-group'><label for='tag"+cnt+"'>Tag "+cnt+":</label><input class='form-control' type='text' maxlength='50' name='tag" + cnt+ "' id='tag" + cnt+ "' /></div>").insertAfter("#postForm input[name*='tag']:last");
     $("input", $("#postForm")).unbind("keyup").bind("keyup", function(){ AdditionEvent() });
-
 }
 
 $("input", $("#postForm")).bind("keyup", function(){ AdditionEvent() });

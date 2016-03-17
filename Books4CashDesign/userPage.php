@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
 session_start();
+require ('includes/DBCommunication.php');
 ?>
 <html lang="en">
 <head>
@@ -30,55 +31,40 @@ include("includes/sidebar.php");
 
 <div class="container">
     <div class="row">
-        <section class="col-md-6 col-md-offset-4" id="registration">
-            <h1>Register</h1>
-            <form role="form" id="dataUpdateForm" action="includes/updateImportant.php">
+        <section class="col-md-6 col-md-offset-4" id="account">
+            <h1>Account page.</h1>
+            <?php
+                try{
+                    $conn=new DBCommunication();
+                    if(isset($_SESSION['user_id'])){
+                        $query="SELECT advert_id,advert_bookname,advert_price FROM whwp_Advert WHERE advert_owner=:user_id AND ((NOT advert_expired=1) OR (advert_expired IS NULL))";
+                        $conn->prepQuery($query);
+                        $conn->bind('user_id',$_SESSION['user_id']);
+                        $result=$conn->resultset();
+                        foreach($result as $item){
+                            echo "<div id='book".$item->advert_id."''>";
+                            echo "<label>".$item->advert_bookname." - ".$item->advert_price."£   </label>";
+                            echo "<button onclick='deleteAdvert(".$item->advert_id.")' id='deleteButton".$item->advert_id."' type='button' class='btn btn-default'>Delete</button>";
+                            echo "<form role='form' method='get' action='editAdvert.php'>";
+                            echo "<input type='hidden' name='advert_id' value='".$item->advert_id."'>";
+                            echo "<button id='editButton".$item->advert_id."' type='submit' class='btn btn-default'>Edit</button>";
+                            echo "</form>";
+                            echo "</div>";
+                        }
+                    }
+                    else {
+                        echo "Please log-in.";
+                    }
 
-                <div class="form-group">
-                    <label for="firstname">First name:</label>
-                    <input type="text" class="form-control" name="firstname" id="firstname">
-                </div>
+                }
+                catch(PDOException $e){
+                    echo $e->getMessage();
+                }
 
-
-                <div class="form-group">
-                    <label for="surname">Last name:</label>
-                    <input type="text" class="form-control" name="surname" id="surname">
-                </div>
-
-                <div class="form-group">
-                    <label for="city">City:</label>
-                    <input type="text" class="form-control" name="city" id="city">
-                </div>
-
-                <div class="form-group">
-                    <label for="old_password">Password:</label>
-                    <input type="password" class="form-control" name="old_password" id="old_password">
-                </div>
-
-                <div id="importantFields">
-
-                    <div class="form-group">
-                        <label for="email">Email address:</label>
-                        <input type="email" name="email" class="form-control" id="email" disabled="true">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">New Password:</label>
-                        <input type="password" class="form-control" name="password" id="password" disabled="true">
-                    </div>
-
-                    <div class="form-group" id="confirmation">
-                        <label for="confirm_password">Re-enter new password:</label>
-                        <input type="password" name="confirm_password" class="form-control" id="confirm_password" disabled="true">
-                    </div>
-                </div>
-
-                <button id="cancel" onclick="updateView()" type="button" class="btn btn-default">Cancel</button>
-
-                <button id="submit" type="submit" class="btn btn-default">Update All</button>
+            ?>
+            <form role="form" action="userSettings.php">
+                <input type="submit" value="Go to User settings.">
             </form>
-
-
         </section>
 
     </div>
@@ -94,7 +80,7 @@ include("includes/sidebar.php");
 <script src="js/bootstrap/bootstrap.min.js"></script>
 <script src="js/custom scripts/EffectsIndex.js"></script>
 <script src="js/bootstrap/bootstrap-notify.min.js"></script>
-<script src="js/custom scripts/userPageScript.js"></script>
+<script src="js/custom scripts/advertDelete.js"></script>
 
 </body>
 </html>
