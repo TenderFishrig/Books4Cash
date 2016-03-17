@@ -29,9 +29,20 @@ else
 include("includes/sidebar.php");
 ?>
 
-<div class="container">
+<div class="container" id="accountMenu">
+
+<ul class="list-group">
+<li class="list-group-item">My Books</li>
+  <li class="list-group-item"><a href="userSettings.php">Edit profile</a></li>
+  <li class="list-group-item">Messages</li>
+</ul>
+
+</div>
+
+<div class="container" id="myAds">
+
     <div class="row">
-        <section class="col-md-6 col-md-offset-4" id="account">
+        <section id="account">
             <h1>Account page.</h1>
             <?php
                 try{
@@ -41,16 +52,40 @@ include("includes/sidebar.php");
                         $conn->prepQuery($query);
                         $conn->bind('user_id',$_SESSION['user_id']);
                         $result=$conn->resultset();
+
+                            echo "<h2>My Ads</h2>";
+                            echo "<table class=\"table table-hover\">";
+                            echo "<thead>";
+                            echo "<tr>";
+                            echo "<th>ID</th>";
+                            echo "<th>Title</th>";
+                            echo "<th>Price</th>";
+                            echo "<th></th>";
+                            echo "</tr>";
+                            echo "</thead>"; 
+                            echo "<tbody>";
                         foreach($result as $item){
-                            echo "<div id='book".$item->advert_id."''>";
-                            echo "<label>".$item->advert_bookname." - ".$item->advert_price."£   </label>";
-                            echo "<button onclick='deleteAdvert(".$item->advert_id.")' id='deleteButton".$item->advert_id."' type='button' class='btn btn-default'>Delete</button>";
-                            echo "<form role='form' method='get' action='editAdvert.php'>";
+                           echo"<tr>";
+                            echo"<td>" . $item->advert_id . "</td>";
+                            echo "<td>" . $item->advert_bookname . "</td>";
+                            echo "<td>" . $item->advert_price . "</td>";
+                           
+                            echo "<td>";
+
+                                 echo "<form role='form' method='get' action='editAdvert.php'>";
                             echo "<input type='hidden' name='advert_id' value='".$item->advert_id."'>";
                             echo "<button id='editButton".$item->advert_id."' type='submit' class='btn btn-default'>Edit</button>";
                             echo "</form>";
-                            echo "</div>";
+
+                            echo "<button class=\"btn btn-default\"><a href='showAdvert.php?advert_id=". $item->advert_id . "'>View Ad</a></button>"
+                                
+                                ."<button onclick='deleteAdvert(".$item->advert_id.")' id='deleteButton".$item->advert_id."' type='button' class='btn btn-default'>Delete</button>";
+                            
+                            echo "</td>";
+                         echo "</tr>";
                         }
+                         echo "</tbody>";
+                      echo "</table>";
                     }
                     else {
                         echo "Please log-in.";
@@ -62,9 +97,6 @@ include("includes/sidebar.php");
                 }
 
             ?>
-            <form role="form" action="userSettings.php">
-                <input type="submit" value="Go to User settings.">
-            </form>
         </section>
 
     </div>

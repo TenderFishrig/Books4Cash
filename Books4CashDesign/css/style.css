@@ -1,8 +1,90 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
 
+h1 {
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 26.4px;
+}
+h3 {
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 15.4px;
+}
+p {
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+blockquote {
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-size: 21px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 30px;
+}
+pre {
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 18.5714px;
+}
 
 .navbar-default{
-	border: none;
-	background-color: #2AAC86;
+    border: none;
+    background-color: #2AAC86;
     margin-bottom: 100px;
 
 }
@@ -20,53 +102,53 @@
 }
 
 .banner p {
-	font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
     font-size: 50px;
-	color:#2AAC86;
-	position:relative;
-	top:60px;
-	width:700px;
-	padding:20px;
-	background:#AEEDD7;
-	text-align:center;
-	text-transform:uppercase;
-	letter-spacing:20px;
-	filter: alpha(opacity=50);
-	opacity: 0.65;
+    color:#2AAC86;
+    position:relative;
+    top:60px;
+    width:700px;
+    padding:20px;
+    background:#AEEDD7;
+    text-align:center;
+    text-transform:uppercase;
+    letter-spacing:20px;
+    filter: alpha(opacity=50);
+    opacity: 0.65;
     border-radius: 30px;
 }
 
 #login-button{
 
-	background-color: #E9E9E9;
-	margin-left: 10px;
+    background-color: #E9E9E9;
+    margin-left: 10px;
 }
 
 #signup-button{
-	background-color: #E9E9E9;
-	margin-left: 10px;
+    background-color: #E9E9E9;
+    margin-left: 10px;
 }
 
 
 #login-password{
 
-	padding-bottom: 10px;
+    padding-bottom: 10px;
 
 }
 
 #login-username{
 
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 #logindropdown{
 
-	width: 300px;
+    width: 300px;
 }
 
 #custombutton{
-	background-color: #7EDFBD;
-	margin-top: 10px;
+    background-color: #7EDFBD;
+    margin-top: 10px;
  
 }
 
@@ -109,7 +191,7 @@ position:fixed;
 
 
 body{
-	padding-top: 50px;
+    padding-top: 50px;
     padding-bottom: 30px;
 }
 
@@ -209,7 +291,7 @@ body{
 }
 
 #categories{
-	font-size: 20px;
+    font-size: 20px;
 }
 
 #menu li a{
@@ -222,7 +304,7 @@ color:#000000;
     background: rgba(255,255,255,0.2);
 }
 #openAd:hover {
-text-decoration: none;
+    text-decoration: none;
     color: #fff;
     background: rgba(255,255,255,0.2);
 
@@ -311,10 +393,11 @@ blac
 }
 
 .searchItem{
-    width: 200px;
+    width: 300px;
     height: 200px;
     box-shadow: 5px 15px 75px #888888;
     border-color: #C0D4C3;
+    border-radius: 10px;
     border-width: medium;
     border-style: groove;
     text-align: center;
@@ -333,7 +416,7 @@ blac
     -ms-box-shadow: 0 0 10px #333;
 }
 
-.showMore{
+.showMore, #comment{
     border-width: 1px;
     border-style: groove;
     border-color: black;
@@ -365,6 +448,7 @@ blac
 position:absolute;
 bottom: 5px;
 right: 5px;
+text-decoration: none;
 }
 
 #form {
@@ -386,4 +470,66 @@ right: 5px;
 #searchForm{
 
 margin-bottom: -6px;
+}
+
+#sidebar-wrapper{
+
+margin-top: -6px;
+}
+
+#toggle{
+    padding:15px;
+}
+
+#categoryDiv{
+
+    padding-bottom: 20px;
+}
+
+.searchResultTitle
+{
+
+
+}
+
+.showAdvert{
+padding-top: 75px;
+
+}
+
+
+#postedBy{
+    text-align: right;
+    padding: 10px;
+}
+
+#comment{
+
+    padding: 30px;
+    padding-top: 15px;
+    border-radius: 10px;
+    border-color: #AEEDD7;
+}
+
+#accountMenu{
+
+    float: left;
+    width: 300px;
+    padding-top: 50px;
+    position: fixed;
+}
+
+
+#searchAndAdvanced{
+
+    display:inline-block;
+}
+
+#hamburger{
+    float: right;
+}
+
+#myAds{
+
+    padding-top: 50px;
 }

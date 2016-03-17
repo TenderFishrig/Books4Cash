@@ -35,7 +35,7 @@ else
 
 include("includes/sidebar.php");
 ?>
-
+<div class="container showAdvert">
 <?php
 // Getting the id of the advertisement
 $advert_id = $_GET['advert_id'];
@@ -73,14 +73,15 @@ try {
     $image=$conn->resultset();
     foreach ($image as $element) {
        // echo "<img src = 'thumbnails/" . ($element->image_location) . "' alt='" . $title . "' title='" . $title . "'>";
+       
         echo "<a href='uploadedImages/" . ($element->image_location) . "' target='_blank'><img src='thumbnails/" . ($element->image_location) . "'></a><br/>";
     }
-    echo "Price: " . $price . "<br/>";
-    echo "Title: " . $title . "<br/>";
-    echo "Author: " . $author . "<br/>";
-    echo "Date Posted: " . $date . "<br/>";
-    echo "Description: " . $description . "<br/>";
-    echo "Posted by: <a href='user.php?user_id=$user'>" . $username . "</a><br/>";
+    echo "<p>Price: " . $price . "</p>";
+    echo "<p>Title: " . $title . "</p>";
+    echo "<p>Author: " . $author . "</p>";
+    echo "<p>Date Posted: " . $date . "</p>";
+    echo "<p>Description: " . $description . "</p>";
+    echo "<p>Posted by: <a href='user.php?user_id=$user'>" . $username . "</a></p>";
 
     if($_SESSION['user_id'] == $user)
     {
@@ -92,13 +93,15 @@ catch(PDOException $e){
     echo 'Something went wrong';
 }
 ?>
-<div id="form2">
-    <h2>Post a comment:</h2>
+<div id="form2" class="container">
     <form action="<?php "showAdvert.php?advert_id=$advert_id" ?>"
           method="post">
-        <label for="comment">Your comment:</label>
-        <textarea name="comment" rows="5" cols='50'></textarea>
-        <input type="submit" name="submit_comment" value="Post Comment!">
+          <div class="form-group">
+        <textarea name="comment" rows="5" cols='50' placeholder="Type your comment here"></textarea>
+        </div>
+        <div class="form-group">
+        <input type="submit" name="submit_comment" value="Post Comment!" class="btn btn-default">
+        </div>
     </form>
     <hr/>
 </div>
@@ -134,7 +137,6 @@ try {
             //echo "<a href='includes/login.php'>Click here to enter login page.</a>";
         }
     }
-    echo "<hr/><br/>";
 
     $query = "SELECT ac.*, whwp_User.user_username FROM whwp_User, whwp_Comment AS ac WHERE ac.comment_advert = :advert_id "
         . "AND whwp_User.user_id = ac.comment_author";
@@ -147,8 +149,9 @@ try {
         $username = $element -> user_username;
         $comm = $element -> comment_contents;
         //echo $timePosted . "<br/>";
-        echo $username . "<br/>";
-        echo $comm . "<br/>";
+        echo "<div id=\"comment\">" .$comm . "<div id=\"postedBy\"><p>Posted by:"  . $username .
+        "</p><p>On: " . "</p></div></div>";
+       
         echo "<hr/>";
     }
 }

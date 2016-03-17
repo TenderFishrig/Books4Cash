@@ -28,6 +28,16 @@ else
 include("includes/sidebar.php");
 ?>
 
+<div class="container" id="accountMenu">
+
+<ul class="list-group">
+<li class="list-group-item"><a href= "userPage.php"> My Books</a></li>
+  <li class="list-group-item">Edit profile</li>
+  <li class="list-group-item">Messages</li>
+</ul>
+
+</div>
+
 <div class="container">
     <div class="row">
         <section class="col-md-6 col-md-offset-4" id="registration">
