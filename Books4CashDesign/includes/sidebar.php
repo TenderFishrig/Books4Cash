@@ -1,14 +1,10 @@
-<!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav" id="toggle">
-           
-                <li class="sidebar-brand">
-                   
-                </li>
+
+        <!-- Sidebar -->
+        <div id="wrapper">
+            <ul class="sidebar-nav">
                 <li>
-                 <div id="form">
-                    
-                    <form action="search.php" method="get">
+                    <div id="form">
+                    <form class="form-horizontal" action="search.php" method="get">
                         <label for="search">Enter your search term</label>
                         <input type="text" name="search" id="search" value="<?php 
                             if (isset($_GET['search'])) echo $_GET['search']; ?>">
@@ -47,9 +43,10 @@
                         </div>
                     </form>
                 </div> 
-     
+                </li>
+               
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
         <script src="js/bootstrap/jquery-2.2.0.min.js"></script>
-        <script src="js/custom scripts/getCategories.js"></script>
+       

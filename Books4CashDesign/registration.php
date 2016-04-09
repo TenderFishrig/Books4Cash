@@ -21,9 +21,10 @@
 
      <div class="container">
        <div class="row">
-          <section class="col-md-6 col-md-offset-4" id="registration">
-                <h1>Register</h1>
-              <form role="form" id="registerForm" action="includes/register.php">
+          <div class="panel panel-default col-lg-offset-3" id="registration" style="width: 40%">
+                <div class="panel-heading">Register</div>
+                  <div class="panel-body">
+                  <form role="form" id="registerForm" action="includes/register.php">
 
                     <div class="form-group">
                       <label for="username">Username:*</label>
@@ -96,8 +97,8 @@
                        <button id="submit" type="submit" class="btn btn-default">Register</button>
               </form><!--registration form-->
 
-
-          </section>
+            </div>
+          </div>
 
        </div>
      </div><!--registration container-->

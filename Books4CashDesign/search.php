@@ -37,6 +37,7 @@ require ('includes/DBCommunication.php');
    ?>
    </div>
 <div class="container" id="searchResults">
+<div class="panel panel-default">
 
 
                 <?php
@@ -61,9 +62,9 @@ require ('includes/DBCommunication.php');
                                 // Counts how many results were returned from the search.
                                 $count = $conn->single()->count;
                                 if ($count ==1) {
-                                    echo "<p><strong>Your search provided 1 result</strong></p>";
+                                    echo "<div class='panel-heading'>Your search provided 1 result</div>";
                                 } else {
-                                    echo "<p><strong>Your search provided " . $count . " results</strong></p>";
+                                    echo "<div class='panel-heading'>Your search provided " . $count . " results</div>";
                                 }
                                 // Paging system
                                 if (isset($_GET["page"])) {
@@ -88,29 +89,35 @@ require ('includes/DBCommunication.php');
                                 $conn->prepQuery($query);
                                 $conn->bind('search_string', $search_string);
                                 $advert=$conn->resultset();
-                               echo "<div class=\"row text-center pull-right\">";
                               
+                              echo "<div class='panel-body'>";
                                 foreach ($advert as $element) {
        
-
-              
                   echo "<div class=\"col-lg-4 col-sm-6 searchItem\">"; 
-                  echo "<h4>" . $element->advert_bookname ."</h4>";
-                   echo "<p>Price: " . $element->advert_price . "£</p>";
-                       echo "<button type=\"button\" class=\"btn btn-default btn-xs openAd\"><a href='showAdvert.php?advert_id=". $element->advert_id . "'>Open Ad</a></button>";
+                  if(strlen($element->advert_bookname) > 20){
+
+                    echo "<div class='well well-sm'><strong>Title:</strong> ". substr($element->advert_bookname, 0, 20) . "...</div>";
+                  }
+                  else
+                  {
+                    echo "<div class='well well-sm'><strong>Title:</strong> ". $element->advert_bookname . "</div>";
+                  }
+                  echo "<div class='well well-sm'><strong>Price:</strong> ". $element->advert_price . "£</div>";
+                       echo "<a href='showAdvert.php?advert_id=". $element->advert_id . "'><button type=\"button\" class=\"btn btn-info btn-lg openAd\">Show more</button></a>";
                   echo "</div>";
                  
              
         }
                 
-             
+             echo "</div>";
+            echo "</div>";
                             
                                 // Determining how many pages will be needed and outputting them.
                                 $totalPages = ceil($count / $pageLimit);
                                 if($totalPages > 1)
                                 {
                              
-                                echo "<div class=\"container\">";
+                                echo "<div class=\"text-center\">";
                                 echo "<ul class=\"pagination\">";
 
                                 for ($i = 1; $i <= $totalPages; $i++) {
@@ -133,7 +140,9 @@ require ('includes/DBCommunication.php');
                      
                 ?>    
                 
+
 </div>
+
  <footer>
          <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>
      </footer>

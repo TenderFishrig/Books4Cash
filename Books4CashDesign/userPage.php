@@ -29,22 +29,29 @@ else
 include("includes/sidebar.php");
 ?>
 
-<div class="container" id="accountMenu">
-
-<ul class="list-group">
-<li class="list-group-item">My Books</li>
-  <li class="list-group-item"><a href="userSettings.php">Edit profile</a></li>
-  <li class="list-group-item">Messages</li>
-</ul>
-
-</div>
-
-<div class="container" id="myAds">
-
-    <div class="row">
-        <section id="account">
-            <h1>Account page.</h1>
-            <?php
+<div class="container" id="userContent">
+<div class="row">
+<div class="col-lg-3">
+          <div class="panel panel-default">
+          <div class="panel-heading">My Account
+          </div>
+          <div class="panel-body">
+               <ul class="nav nav-list">
+                <li class="usermenuActive"><a href="userSettings.php"><i class="glyphicon glyphicon-user"></i> Edit profile</a>
+                </li>
+                <li><a href="#"><i class="glyphicon glyphicon-list-alt"></i>
+                                My Books</a></li>
+                <li><a href="message.php"><i class="glyphicon glyphicon-envelope"></i> Messages</a>
+                        </li>
+                </ul>
+          </div>
+          </div>
+          </div>
+<div class="col-lg-9">
+   <div class="panel panel-default">
+   <div class="panel-heading">My Books</div>
+   <div class="panel-body">
+        <?php
                 try{
                     $conn=new DBCommunication();
                     if(isset($_SESSION['user_id'])){
@@ -53,14 +60,14 @@ include("includes/sidebar.php");
                         $conn->bind('user_id',$_SESSION['user_id']);
                         $result=$conn->resultset();
 
-                            echo "<h2>My Ads</h2>";
+                            
                             echo "<table class=\"table table-hover\">";
                             echo "<thead>";
                             echo "<tr>";
-                            echo "<th>ID</th>";
-                            echo "<th>Title</th>";
-                            echo "<th>Price</th>";
-                            echo "<th></th>";
+                            echo "<th style=\"width:20%\">ID</th>";
+                            echo "<th style=\"width:20%\">Title</th>";
+                            echo "<th style=\"width:20%\">Price</th>";
+                            echo "<th style=\"width:40%\"></th>";
                             echo "</tr>";
                             echo "</thead>"; 
                             echo "<tbody>";
@@ -71,15 +78,19 @@ include("includes/sidebar.php");
                             echo "<td>" . $item->advert_price . "</td>";
                            
                             echo "<td>";
-
-                                 echo "<form role='form' method='get' action='editAdvert.php'>";
+                                echo "<div class='btn-group' role='group'>";
+                                 echo "<form role='form' class='btn-group' method='get' action='editAdvert.php'>";
                             echo "<input type='hidden' name='advert_id' value='".$item->advert_id."'>";
-                            echo "<button id='editButton".$item->advert_id."' type='submit' class='btn btn-default'>Edit</button>";
+                            echo "<button id='editButton".$item->advert_id."' type='submit' class='btn btn-default editButton'>Edit</button>";
                             echo "</form>";
+   
 
-                            echo "<button class=\"btn btn-default\"><a href='showAdvert.php?advert_id=". $item->advert_id . "'>View Ad</a></button>"
-                                
-                                ."<button onclick='deleteAdvert(".$item->advert_id.")' id='deleteButton".$item->advert_id."' type='button' class='btn btn-default'>Delete</button>";
+                              echo "<form class='btn-group' action='showAdvert.php?advert_id='". $item->advert_id .">";
+                              echo "<button class='btn btn-default'>View Ad</button>";
+                              echo "</form>";
+                              
+                              echo "<button onclick='deleteAdvert(".$item->advert_id.")' id='deleteButton".$item->advert_id."' type='button' class='btn btn-default'>Delete</button>";
+                                echo "</div>";
                             
                             echo "</td>";
                          echo "</tr>";
@@ -97,12 +108,15 @@ include("includes/sidebar.php");
                 }
 
             ?>
-        </section>
 
-    </div>
+
+
+        </div>
+        </div>    
+        </div>
+    
 </div>
-
-
+</div>
 
 <footer>
     <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>

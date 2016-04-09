@@ -16,7 +16,6 @@ include "includes/DBCommunication.php";
 
 </head>
 <body>
-<div class="container">
 <?php
 
 if(isset($_SESSION['user_id']))
@@ -36,6 +35,7 @@ else
 include("includes/sidebar.php");
 ?>
 <div class="container showAdvert">
+<div class="panel panel-default">
 <?php
 // Getting the id of the advertisement
 $advert_id = $_GET['advert_id'];
@@ -76,12 +76,15 @@ try {
        
         echo "<a href='uploadedImages/" . ($element->image_location) . "' target='_blank'><img src='thumbnails/" . ($element->image_location) . "'></a><br/>";
     }
-    echo "<p>Price: " . $price . "</p>";
-    echo "<p>Title: " . $title . "</p>";
-    echo "<p>Author: " . $author . "</p>";
-    echo "<p>Date Posted: " . $date . "</p>";
-    echo "<p>Description: " . $description . "</p>";
-    echo "<p>Posted by: <a href='user.php?user_id=$user'>" . $username . "</a></p>";
+    echo "<div class='panel-heading'>" . $title . "</div>";
+    echo "<div class='panel-body'>";
+    echo "<p><strong>Price:</strong> " . $price . "£</p>";
+    echo "<p><strong>Author:</strong> " . $author . "</p>";
+    echo "<p><strong>Date Posted:</strong> " . $date . "</p>";
+    echo "<p><strong>Description:</strong> " . $description . "</p>";
+    echo "<p><strong>Posted by:</strong> <a href='user.php?user_id=$user'>" . $username . "</a></p>";
+    echo "</div>";
+    echo "</div>";
 
     if($_SESSION['user_id'] == $user)
     {
@@ -161,9 +164,6 @@ catch(PDOException $e) {
 ?>
 </div>
 
-</div>
-</div>
-</div>
 
 <div id="footer">
 

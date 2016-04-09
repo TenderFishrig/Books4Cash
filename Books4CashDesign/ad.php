@@ -28,18 +28,12 @@ if(isset($_SESSION['user_id']))
 include("includes/sidebar.php");
 ?>
 
-<header class="banner">
-    <div class= "container-fluid">
-        <p class="container-fluid">Books4Cash</p>
-    </div>
-</header>
-
 
 <div class="container"><!--Ad form-->
-
     <div class="row">
-        <section class="col-xs-6 col-md-4 col-md-offset-3" id="adspace">
-
+        <div class="panel panel-default col-lg-offset-3" id="adPanel">
+                <div class="panel-heading">Post an Ad</div>
+                <div class="panel-body">
             <form id="postForm" action="includes/post.php" enctype="multipart/form-data">
 
                 <div class="form-group">
@@ -97,8 +91,9 @@ include("includes/sidebar.php");
                 </div>
 
             </form>
-        </section>
-    </div>
+        </div>
+        </div>
+    <!-- </div> -->
 
 </div><!--Ad form-->
 

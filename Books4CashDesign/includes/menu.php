@@ -1,46 +1,40 @@
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container id ="menuContainer"">
-        <div class="navbar-header"><!-- navbar-header -->
-             <div id="form col-md-4">
-                    
-                    <form class="navbar-form" id="searchForm" action="search.php" method="get">
-                    <div class="input-group">
-                        
-                        <input type="text" class="form-control" name="search" placeholder="Search" id="search" value="<?php 
-                            if (isset($_GET['search'])) echo $_GET['search']; ?>">
-                            <div class="input-group-btn">
-                                 <button class="btn btn-default" type="submit" name"Search" value="Search"><i class="glyphicon glyphicon-search"></i></button>
-                            </div>
+ 
+
+                <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+           
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse" aria-expanded="true">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- <a class="navbar-brand" href="#">Books4Cash</a> -->
+            </div>
+
+            <div class="navbar-collapse collapse in" id="collapse" aria-expanded="true">
+
+                <form class="navbar-form navbar-left" id="searchForm" action="search.php" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" name="search" id="search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" name"search"="" value="Search"><i class="glyphicon glyphicon-search"></i></button>
                     </div>
-                     <button type="button" class="navbar-btn btn btn-default hidden-xs btn-xs" id ="openCategories">Advanced Options</button><!--toggle categories-->
-                    </form>
-                   
-                </div> 
-            
-            <button type="button" class=" navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+                </div>
+                </form>
 
-            <!--Site name for the upper left corner of the site -->
-            <a class="navbar-brand visible-xs" href="index.php">Books4Cash </a>
+                <ul class="nav navbar-nav">
+                <li><button type="button" class="navbar-btn btn btn-default hidden-xs btn-xs" id="openCategories">Advanced Options</button></li>
+                </ul>
 
-        </div>
-
-        <!-- navbar-header -->
-        <div class="collapse navbar-collapse" id="collapse">
-
-            <ul class="nav navbar-nav navbar-right" id="menu">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="#" class="visible-xs">Search</a></li>
-                <li>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.php">Home</a></li>
+                    <li>
                     <form action="registration.php">
                         <button id="signup-button" class="btn btn-default navbar-btn">Sign Up</button>
                     </form>
                 </li>
-
-                <li class="dropdown">
+                    <li class="dropdown" style="margin-right: 15px;">
                     <button id="login-button" data-toggle="dropdown" class="btn btn-default navbar-btn dropdown-toggle" >Log In <strong class="caret"></strong></button>
 
                     <div id="logindropdown" class="dropdown-menu" style="padding: 15px;">
@@ -65,7 +59,9 @@
                         <script src="js/bootstrap/bootstrap-notify.min.js"></script>
                     </div>
                 </li><!--Login dropdown-->
-            </ul>
-        </div><!-- collapse navbar-collapse -->
-    </div><!-- container -->
-</nav>
+                   
+                </ul>
+            </div>
+
+        </div><!-- container -->
+    </nav>

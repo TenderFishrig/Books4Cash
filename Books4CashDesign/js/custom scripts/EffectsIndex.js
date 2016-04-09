@@ -14,20 +14,9 @@ window.setInterval(function() {
 
 
 
-
-
-
-$(function () {
-	    $('#openCategories').click( function () {
-	        $('#sidebar-wrapper').slideToggle();
-	        $('.sidebar-nav').slideToggle();
-	    });
-	});
-
-
-$('.dropdown-toggle').click(function() {
-  $(this).next('.dropdown-menu').slideToggle(500);
-});
-
+ $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
 
 

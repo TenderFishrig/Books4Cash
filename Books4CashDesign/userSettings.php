@@ -28,22 +28,30 @@ else
 include("includes/sidebar.php");
 ?>
 
-<div class="container" id="accountMenu">
+<div class="container" id="userContent">
+<div class="row">
+<div class="col-lg-3">
+          <div class="panel panel-default">
+          <div class="panel-heading">My Account
+          </div>
+          <div class="panel-body">
+               <ul class="nav nav-list">
+                <li class="usermenuActive"><a href="userSettings.php"><i class="glyphicon glyphicon-user"></i> Edit profile</a>
+                </li>
+                <li><a href="userPage.php"><i class="glyphicon glyphicon-list-alt"></i>
+                                My Books</a></li>
+                <li><a href="message.php"><i class="glyphicon glyphicon-envelope"></i> Messages</a>
+                        </li>
+                </ul>
+          </div>
+          </div>
+          </div>
 
-<ul class="list-group">
-<li class="list-group-item"><a href= "userPage.php"> My Books</a></li>
-  <li class="list-group-item">Edit profile</li>
-  <li class="list-group-item">Messages</li>
-</ul>
-
-</div>
-
-<div class="container">
-    <div class="row">
-        <section class="col-md-6 col-md-offset-4" id="registration">
-            <h1>Edit user data.</h1>
+         <div class="col-lg-9 panel panel-default" id="registration">
+            <div class="panel-heading">Edit profile</div>
+            <div class="panel-body">
             <form role="form" id="dataUpdateForm" action="includes/updateImportant.php">
-
+            
                 <div class="form-group">
                     <label for="firstname">First name:</label>
                     <input type="text" class="form-control" name="firstname" id="firstname">
@@ -86,14 +94,13 @@ include("includes/sidebar.php");
                 <button id="cancel" onclick="updateView()" type="button" class="btn btn-default">Cancel</button>
 
                 <button id="submit" type="submit" class="btn btn-default">Update All</button>
+                
             </form>
-
-
-        </section>
-
-    </div>
+            </div>
+        </div>
+    
 </div>
-
+</div>
 
 
 <footer>

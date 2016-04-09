@@ -85,7 +85,6 @@ pre {
 .navbar-default{
     border: none;
     background-color: #2AAC86;
-    margin-bottom: 100px;
 
 }
 
@@ -97,6 +96,7 @@ pre {
     background-position: center center;
     background-size: cover;
     margin-bottom: 50px;
+    margin-top: -12px;
 
 
 }
@@ -169,11 +169,6 @@ pre {
     padding-left: 200px;
 }
 
-#registration form{
-
-max-width: 300px;
-padding-top:50px;
-}
 
 
 
@@ -191,7 +186,7 @@ position:fixed;
 
 
 body{
-    padding-top: 50px;
+    padding-top: 62px;
     padding-bottom: 30px;
 }
 
@@ -211,10 +206,10 @@ body{
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
-    left: 250px;
+    left: 300px;
     width: 0;
     height: 100%;
-    margin-left: -250px;
+    margin-left: -300px;
     overflow-y: auto;
     background: #7EDFBD;
     -webkit-transition: left 0.2s ease;
@@ -336,7 +331,11 @@ color:#000000;
         margin-right: 0;
     }
 
-    
+    #search{
+        max-width: 250px;
+        width: 250px;
+   
+    }
     
 }
 
@@ -389,11 +388,10 @@ blac
 
 #searchResults{
 
-    padding-top: 50px;
 }
 
 .searchItem{
-    width: 300px;
+    width: 290px;
     height: 200px;
     box-shadow: 5px 15px 75px #888888;
     border-color: #C0D4C3;
@@ -444,11 +442,12 @@ blac
     }
 }
 
+@media only screen and (min-width : 320px) {
+    
+}
+
 .openAd{
-position:absolute;
-bottom: 5px;
-right: 5px;
-text-decoration: none;
+
 }
 
 #form {
@@ -458,8 +457,7 @@ text-decoration: none;
 
 #search{
 
-    width: 250px;
-    max-width: 250px;
+   
 }
 
 #menuContainer{
@@ -469,12 +467,12 @@ text-decoration: none;
 
 #searchForm{
 
-margin-bottom: -6px;
+
 }
 
 #sidebar-wrapper{
 
-margin-top: -6px;
+margin-top: -12px;
 }
 
 #toggle{
@@ -532,4 +530,19 @@ padding-top: 75px;
 #myAds{
 
     padding-top: 50px;
+}
+
+#userContent{
+
+
+}
+
+.editButton {
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+}
+
+#adPanel{
+
+max-width: 450px;
 }
