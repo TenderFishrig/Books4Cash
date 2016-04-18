@@ -56,7 +56,6 @@ if(isset($_COOKIE['Books4Cash']))
    
     }
 
-    include("includes/sidebar.php");
    ?>
      
      

@@ -33,7 +33,6 @@ require ('includes/DBCommunication.php');
 
     }
 
-    include("includes/sidebar.php");
     ?>
 </div>
 <div class="container" id="searchResults">

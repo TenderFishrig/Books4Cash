@@ -25,7 +25,6 @@ else
 {
     include("includes/menu.php");
 }
-include("includes/sidebar.php");
 ?>
 
 <div class="container">

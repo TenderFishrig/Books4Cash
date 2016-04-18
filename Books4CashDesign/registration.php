@@ -15,7 +15,6 @@
   
    <?php 
    include("includes/menu.php");
-   include("includes/sidebar.php");
    ?>
 
 

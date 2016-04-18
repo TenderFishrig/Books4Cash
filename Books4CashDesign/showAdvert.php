@@ -32,7 +32,6 @@ else
 
 }
 
-include("includes/sidebar.php");
 ?>
 <div class="container showAdvert">
 <div class="panel panel-default">

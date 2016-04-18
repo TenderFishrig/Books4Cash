@@ -25,7 +25,6 @@ include "includes/DBCommunication.php";
 
 }
 
-include("includes/sidebar.php");
 ?>
 
 
