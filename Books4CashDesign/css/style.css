@@ -385,7 +385,11 @@ padding-top: 75px;
 #ff7060 orangy
 #434343 dark
 */
-
+.pageNumber {
+    background-color: #434343 !important;
+    color: #ff7060 !important;
+    border-color: #ff7060 !important;
+}
 #adEdit{
     color: #ff7060;
 }

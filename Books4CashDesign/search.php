@@ -94,13 +94,16 @@ require ('includes/DBCommunication.php');
                             array_push($searchResults, $oneResult);
                         }
                     }
-                    echo "<div class='panel-body'>";
-                    $count = sizeof($searchResults);
-                    if ($count ==1) {
+                     $count = sizeof($searchResults);
+                      if ($count ==1) {
                         echo "<div class='panel-heading'>Your search provided 1 result</div>";
                     } else {
                         echo "<div class='panel-heading'>Your search provided " . $count . " results</div>";
                     }
+
+                    echo "<div class='panel-body'>";
+                   
+                    
                     foreach ($searchResults as $element)
                     {
                         echo "<div class=\"col-lg-4 col-sm-6 searchItem\">";
@@ -118,6 +121,23 @@ require ('includes/DBCommunication.php');
                     }
                     echo "</div>";
                     echo "</div>";
+
+                     // Determining how many pages will be needed and outputting them.
+                                $pageLimit = 12;
+                                $totalPages = ceil($count / $pageLimit);
+                                if($totalPages > 1)
+                                {
+                             
+                                echo "<div class=\"text-center\">";
+                                echo "<ul class=\"pagination\">";
+                                for ($i = 1; $i <= $totalPages; $i++) {
+                                    echo "<li><a class='pageNumber' href='search.php?search=$search_term&Search=Search&page=$i'>$i</a></li> ";
+                                }
+                                echo "</ul>";
+                                echo "</div>";
+                            }
+
+
                 }
                 catch (PDOException $e)
                 {
@@ -197,11 +217,11 @@ require ('includes/DBCommunication.php');
 
         ?>
     </div>
-    <div id="footer">
+  
 <footer>
     <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>
 </footer>
-    </div>
+   
 </div>
 <script src="js/bootstrap/jquery-2.2.0.min.js"></script>
 <script src="js/bootstrap/bootstrap.min.js"></script>
