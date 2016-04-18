@@ -198,7 +198,9 @@ require ('includes/DBCommunication.php');
         ?>
     </div>
     <div id="footer">
-
+<footer>
+    <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>
+</footer>
     </div>
 </div>
 <script src="js/bootstrap/jquery-2.2.0.min.js"></script>

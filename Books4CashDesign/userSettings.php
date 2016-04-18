@@ -39,14 +39,17 @@ else
                 </li>
                 <li><a href="userPage.php"><i class="glyphicon glyphicon-list-alt"></i>
                                 My Books</a></li>
-                <li><a href="message.php"><i class="glyphicon glyphicon-envelope"></i> Messages</a>
+                <li><a href="message.php"><i class="glyphicon glyphicon-envelope"></i> Inbox</a>
+                        </li>
+                        <li><a href="send_message.php"><i class="glyphicon glyphicon-pencil"></i> Send a Message</a>
                         </li>
                 </ul>
           </div>
           </div>
           </div>
-
-         <div class="col-lg-9 panel panel-default" id="registration">
+        
+        <div class="col-lg-9">
+         <div class="panel panel-default" id="registration">
             <div class="panel-heading">Edit profile</div>
             <div class="panel-body">
             <form role="form" id="dataUpdateForm" action="includes/updateImportant.php">
@@ -97,7 +100,7 @@ else
             </form>
             </div>
         </div>
-    
+    </div>
 </div>
 </div>
 

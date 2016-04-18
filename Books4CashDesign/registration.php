@@ -71,7 +71,23 @@
                       </div>
                     </div>
 
-                  <!-- Modal -->
+                  
+
+                       <button id="submit" type="submit" class="btn btn-default custombutton">Register</button>
+              </form><!--registration form-->
+
+            </div>
+          </div>
+
+       </div>
+     </div><!--registration container-->
+
+      
+
+      <footer>
+         <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>
+      </footer>
+<!-- Modal -->
           <div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -93,20 +109,6 @@
             </div>
           </div>
 
-                       <button id="submit" type="submit" class="btn btn-default">Register</button>
-              </form><!--registration form-->
-
-            </div>
-          </div>
-
-       </div>
-     </div><!--registration container-->
-
-      
-
-      <footer>
-         <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>
-      </footer>
 
      <script src="js/bootstrap/jquery-2.2.0.min.js"></script>
      <script src="js/bootstrap/bootstrap.min.js"></script>

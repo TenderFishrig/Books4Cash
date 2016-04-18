@@ -34,12 +34,14 @@ include "includes/DBCommunication.php";
           <div class="panel-heading">My Account
           </div>
           <div class="panel-body">
-               <ul class="nav nav-list">
+             <ul class="nav nav-list">
                 <li class="usermenuActive"><a href="userSettings.php"><i class="glyphicon glyphicon-user"></i> Edit profile</a>
                 </li>
                 <li><a href="userPage.php"><i class="glyphicon glyphicon-list-alt"></i>
                                 My Books</a></li>
-                <li><a href="message.php"><i class="glyphicon glyphicon-envelope"></i> Messages</a>
+                <li><a href="message.php"><i class="glyphicon glyphicon-envelope"></i> Inbox</a>
+                        </li>
+                        <li><a href="send_message.php"><i class="glyphicon glyphicon-pencil"></i> Send a Message</a>
                         </li>
                 </ul>
           </div>

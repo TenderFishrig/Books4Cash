@@ -27,8 +27,8 @@
                 <li><button type="button" class="navbar-btn btn btn-default hidden-xs btn-xs" id="openCategories">Advanced Options</button></li>
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="index.php">Home</a></li>
+                <ul class="nav navbar-nav navbar-right" id="menuSelections">
+                    <li><a href="index.php"><i class="glyphicon glyphicon-home"></i> Home</a></li>
                     <li>
                     <form action="registration.php">
                         <button id="signup-button" class="btn btn-default navbar-btn">Sign Up</button>
@@ -39,15 +39,15 @@
 
                     <div id="logindropdown" class="dropdown-menu" style="padding: 15px;">
                         <form class="form-inline" id="loginForm" action="includes/login.php" method="post">
-                            <div class="form-group">
-                                <label for="login_username">Username:</label>
+                           <div class="input-group">
+                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                 <input class="form-control" name="username" id="login_username" type="text" placeholder="Username">
-                            </div>
-                            <div class="form-group">
-                                <label for="login_password">Password:</label>
+                            </div><br>
+                            <div class="input-group">
+                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                 <input class="form-control" name="password" id="login_password" type="password" placeholder="Password">
                             </div>
-                            <input type="submit" value="Log In" name="login" id="custombutton" class="btn">
+                            <input type="submit" value="Log In" name="login" class="btn custombutton">
                             <div class="form-group">
                                 <label><input type="checkbox" name="rememberme"> Remember me</label>
                                 <div id="result"></div>
@@ -65,3 +65,77 @@
 
         </div><!-- container -->
     </nav>
+
+     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content" id="advmodal">
+                             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Advanced Search</h4>
+                            </div>
+                     <div class="modal-body">
+                        <form class="form-horizontal" action="search.php" method="get">
+                        
+
+                        <div class="input-group adv-search" id="adv_search">
+                    <input type="text" class="form-control" placeholder="Search" name="search" id="search" value="">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" name="Search" value="<?php 
+                            if (isset($_GET['search'])) echo $_GET['search']; ?>"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+
+
+                     <div class="form-group adv-search">
+                        <label class="control-label" for="email">Category:</label>
+                      
+                          <select name="searchCategory" id="searchCategory">
+                            <option value="0">Any</option>
+                         </select>
+                      
+                      </div>
+                        
+                     <div class="form-group adv-search">
+                        <label class="control-label" for="searchPrice">Category:</label>
+                       
+                          <select name="searchPrice" id="searchPrice">
+                                <option value="0">Any</option>
+                                <option value="1">Less than 10</option>
+                                <option value="2">Less than 30</option>
+                                <option value="3">Less than 50</option>
+                            </select>
+                      
+                      </div>
+
+
+                        <div class="form-group adv-search">
+                            <label class="control-label" for="searchCondition">Category:</label>
+                      
+                            <select name="searchCondition" id="searchCondition">
+                                <option value="0">Any</option>
+                                <option value="1">New</option>
+                                <option value="2">Used</option>
+                                <option value="3">Poor</option>
+                            </select>
+                           
+                        </div>
+
+                        <div class="form-group adv-search">
+                            <div class="row">
+                            <div class="col-sm-2">
+                            <label class="control-label" for="authorSearch">Author:</label>
+                            </div>
+                            <div class="col-sm-10">
+                            <input class="form-control" type="text" id="authorSearch" name="authorSearch">
+                            </div>
+                           </div>
+                        </div>
+                    </form>
+                    </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default custombutton" data-dismiss="modal">Close</button>
+                
+            </div>
+        </div>
+    </div>
+</div>

@@ -39,7 +39,9 @@ include "includes/DBCommunication.php";
                 </li>
                 <li><a href="#"><i class="glyphicon glyphicon-list-alt"></i>
                                 My Books</a></li>
-                <li><a href="message.php"><i class="glyphicon glyphicon-envelope"></i> Messages</a>
+                <li><a href="message.php"><i class="glyphicon glyphicon-envelope"></i> Inbox</a>
+                        </li>
+                <li><a href="send_message.php"><i class="glyphicon glyphicon-pencil"></i> Send A Message</a>
                         </li>
                 </ul>
           </div>

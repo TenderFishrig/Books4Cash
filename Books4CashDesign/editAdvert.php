@@ -29,8 +29,13 @@ else
 
 <div class="container">
     <div class="row">
-        <section class="col-md-6 col-md-offset-4" id="registration">
-            <h1>Edit advert.</h1>
+        <section class="col-md-6 col-md-offset-3" id="registration">
+            <div class="panel panel-default">
+                
+            <div class="panel panel-heading">
+                Edit advert
+            </div>
+            <div class="panel panel-body">
             <form role="form" id="advertUpdateForm">
 
                 <?php
@@ -92,9 +97,11 @@ else
                 </div>
 
                 <div class="form-group">
-                    <input class="form-control" type="submit" name="submit" value="Update ad!" />
+                    <input class="form-control custombutton" type="submit" name="submit" value="Update ad!" />
                 </div>
             </form>
+            </div>
+            </div>
 
 
         </section>

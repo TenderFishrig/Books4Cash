@@ -40,8 +40,11 @@ else
                 </li>
                 <li><a href="#"><i class="glyphicon glyphicon-list-alt"></i>
                                 My Books</a></li>
-                <li><a href="message.php"><i class="glyphicon glyphicon-envelope"></i> Messages</a>
+                <li><a href="message.php"><i class="glyphicon glyphicon-envelope"></i> Inbox</a>
                         </li>
+                        <li><a href="send_message.php"><i class="glyphicon glyphicon-pencil"></i> Send a Message</a>
+                        </li>
+                        
                 </ul>
           </div>
           </div>
@@ -77,15 +80,16 @@ else
                             echo "<td>" . $item->advert_price . "</td>";
                            
                             echo "<td>";
-                                echo "<div class='btn-group' role='group'>";
+                                echo "<div class='btn-group' role='group' id='adButtons'>";
                                  echo "<form role='form' class='btn-group' method='get' action='editAdvert.php'>";
                             echo "<input type='hidden' name='advert_id' value='".$item->advert_id."'>";
                             echo "<button id='editButton".$item->advert_id."' type='submit' class='btn btn-default editButton'>Edit</button>";
                             echo "</form>";
    
 
-                              echo "<form class='btn-group' action='showAdvert.php?advert_id='". $item->advert_id .">";
-                              echo "<button class='btn btn-default'>View Ad</button>";
+                              echo "<form class='btn-group' action='showAdvert.php?advert_id=". $item->advert_id ."' method='get'>";
+                              echo "<input type='hidden' name='advert_id' value='".$item->advert_id."'>";
+                              echo "<button type='submit' class='btn btn-default'>View Ad</button>";
                               echo "</form>";
                               
                               echo "<button onclick='deleteAdvert(".$item->advert_id.")' id='deleteButton".$item->advert_id."' type='button' class='btn btn-default'>Delete</button>";

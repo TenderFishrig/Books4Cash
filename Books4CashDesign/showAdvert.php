@@ -32,7 +32,9 @@ else
 
 }
 
+
 ?>
+
 <div class="container showAdvert">
 <div class="panel panel-default">
 <?php
@@ -70,43 +72,71 @@ try {
     $conn->prepQuery($query);
     $conn->bind('advert_id',$advert_id);
     $image=$conn->resultset();
-    foreach ($image as $element) {
-       // echo "<img src = 'thumbnails/" . ($element->image_location) . "' alt='" . $title . "' title='" . $title . "'>";
-       
-        echo "<a href='uploadedImages/" . ($element->image_location) . "' target='_blank'><img src='thumbnails/" . ($element->image_location) . "'></a><br/>";
-    }
-    echo "<div class='panel-heading'>" . $title . "</div>";
-    echo "<div class='panel-body'>";
-    echo "<p><strong>Price:</strong> " . $price . "£</p>";
-    echo "<p><strong>Author:</strong> " . $author . "</p>";
-    echo "<p><strong>Date Posted:</strong> " . $date . "</p>";
-    echo "<p><strong>Description:</strong> " . $description . "</p>";
-    echo "<p><strong>Posted by:</strong> <a href='user.php?user_id=$user'>" . $username . "</a></p>";
-    echo "</div>";
-    echo "</div>";
 
     if($_SESSION['user_id'] == $user)
     {
-        echo "<a href='editAdvert.php?advert_id=$advert_id'>" . "Edit this advertisement" . "</a><br/>";
+        echo "<div class='panel-heading'>" . $title . "<a href='editAdvert.php?advert_id=$advert_id'><span style='float:right' class='glyphicon glyphicon-edit' id='adEdit'></span></a></div>";
+   
     }
-    echo "<hr/>";
+    else{
+        echo "<div class='panel-heading'>" . $title . "</div>";
+    }
+    
+    echo "<div class='panel-body'>";
+    ?>
+     <article class="search-result row">
+            <div class="col-xs-12 col-sm-12 col-md-3">
+                <a href="#" title="Lorem ipsum" class="thumbnail"><img src="thumbnails/<?php
+                 foreach ($image as $element) {
+                 echo $element -> image_location;
+                 }  ?>" /></a>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-2">
+                <ul class="meta-search">
+                    <li><i class="glyphicon glyphicon-calendar"></i> <span><?php echo $date; ?></span></li>
+                    <li><i class="glyphicon glyphicon-time"></i> <span>4:28 pm</span></li>
+                    <li><i class="glyphicon glyphicon-tags"></i> <span>Tags go</span></li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+                <h2>Description</h2>
+                <p><?php echo $description; ?></p>                        
+            
+            </div>
+            <span class="clearfix borda"></span>
+        </article>
+    <?php
+    echo "<p><strong>Price:</strong> " . $price . "£</p>";
+    echo "<p><strong>Author:</strong> " . $author . "</p>";
+    echo "<p><strong>Posted by:</strong> <a href='user.php?user_id=$user'>" . $username . "</a></p>";
+       
+    echo "</div>";
+    echo "</div>";
+
+    
 }
 catch(PDOException $e){
     echo 'Something went wrong';
 }
 ?>
-<div id="form2" class="container">
+
+ <div class="panel panel-default">
+                
+            <div class="panel panel-heading">
+               Comments
+            </div>
+            <div class="panel panel-body">
     <form action="<?php "showAdvert.php?advert_id=$advert_id" ?>"
           method="post">
           <div class="form-group">
         <textarea name="comment" rows="5" cols='50' placeholder="Type your comment here"></textarea>
         </div>
         <div class="form-group">
-        <input type="submit" name="submit_comment" value="Post Comment!" class="btn btn-default">
+        <input type="submit" name="submit_comment" value="Post Comment!" class="btn btn-default custombutton">
         </div>
     </form>
     <hr/>
-</div>
+
 <?php
 try {
     if(isset($_POST['submit_comment']))
@@ -126,7 +156,7 @@ try {
                 //$prepared_statement3 -> bindValue(':date_time', $date_time);
                 $conn->execute();
                 echo "Your comment was posted!";
-                header("refresh:3;url='showAdvert.php?advert_id=$advert_id'");
+                //header("refresh:3;url='showAdvert.php?advert_id=$advert_id'");
             }
             else
             {
@@ -145,13 +175,19 @@ try {
     $conn -> prepQuery($query);
     $conn -> bind('advert_id', $advert_id);
     $comment=$conn -> resultset();
+    ?>
+     
+
+
+    <?php
+
     foreach ($comment as $element)
     {
         //$timePosted = $comment -> date_time;
         $username = $element -> user_username;
         $comm = $element -> comment_contents;
         //echo $timePosted . "<br/>";
-        echo "<div id=\"comment\">" .$comm . "<div id=\"postedBy\"><p>Posted by:"  . $username .
+        echo "<div id=\"comment\"><p>" .$comm . "</p><div id=\"postedBy\"><p>Posted by:"  . $username .
         "</p><p>On: " . "</p></div></div>";
        
         echo "<hr/>";
@@ -162,14 +198,23 @@ catch(PDOException $e) {
 }
 ?>
 </div>
+</div>
+</div>
+</div>
 
 
-<div id="footer">
+
+
 
 <footer>
     <address>&copy; Copyright 2016 All Rights Reserved We Hope We Pass</address>
 </footer>
-</div>
+
+<script src="js/bootstrap/jquery-2.2.0.min.js"></script>
+<script src="js/bootstrap/bootstrap.min.js"></script>
+<script src="js/custom scripts/EffectsIndex.js"></script>
+<script src="js/bootstrap/bootstrap-notify.min.js"></script>
+<script src="js/custom scripts/postScript.js"></script>
 
 </body>
 </html>
