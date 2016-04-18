@@ -88,7 +88,7 @@ try {
 
     if($_SESSION['user_id'] == $user)
     {
-        echo "<a href='editForm.php?advert_id=$advert_id'>" . "Edit this advertisement" . "</a><br/>";
+        echo "<a href='editAdvert.php?advert_id=$advert_id'>" . "Edit this advertisement" . "</a><br/>";
     }
     echo "<hr/>";
 }

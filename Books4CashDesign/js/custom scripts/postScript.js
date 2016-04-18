@@ -25,14 +25,14 @@ $(document).ready(function (n){
             if ($(this).find("input[name='title']").val().length == 0) {
                 $.notify({
                     title: '<strong>Error!</strong>',
-                    message: 'Either server is down or database is down. Please try again later.',
+                    message: 'Either server is down or database is down. Please try again later.'
 
                 }, {
                     type: 'warning',
                     offset: {
                         x: 150,
                         y: 80
-                    },
+                    }
 
 
                 });
@@ -59,14 +59,14 @@ $( "#postForm" ).submit(function( event ) {
     if ($(this).find("input[name='title']").val().length == 0) {
         $.notify({
             title: '<strong>Error!</strong>',
-            message: 'Please, enter a title.',
+            message: 'Please, enter a title.'
 
         }, {
             type: 'warning',
             offset: {
                 x: 150,
                 y: 80
-            },
+            }
 
 
         });
@@ -78,7 +78,7 @@ $( "#postForm" ).submit(function( event ) {
 
         $.notify({
             title: '<strong>Error!</strong>',
-            message: 'Please, enter price.',
+            message: 'Please, enter price.'
 
         }, {
             type: 'warning',
@@ -95,7 +95,7 @@ $( "#postForm" ).submit(function( event ) {
 
         $.notify({
             title: '<strong>Error!</strong>',
-            message: 'Please, enter a description.',
+            message: 'Please, enter a description.'
 
         }, {
             type: 'warning',
@@ -121,7 +121,7 @@ $( "#postForm" ).submit(function( event ) {
         var url = $(this).attr("action");
 
         if ($(this).find("input[name='author']").val().length != 0) {
-            formData.append('author',$(this).find("input[name='title']").val());
+            formData.append('author',$(this).find("input[name='author']").val());
         }
 
         formData.append('title',$(this).find("input[name='title']").val());
@@ -144,7 +144,7 @@ $( "#postForm" ).submit(function( event ) {
         posting.fail(function(n){
             $.notify({
                 title: '<strong>Error!</strong>',
-                message: "Unable to connect to the server.",
+                message: "Unable to connect to the server."
 
             }, {
                 type: 'warning',
@@ -160,7 +160,7 @@ $( "#postForm" ).submit(function( event ) {
             if (data.success) {
                 $.notify({
                     title: '<strong>Success!</strong>',
-                    message: data.message,
+                    message: data.message
 
                 }, {
                     type: 'success',
@@ -174,7 +174,7 @@ $( "#postForm" ).submit(function( event ) {
                 if($.inArray(1, data.error_code) != -1){
                     $.notify({
                         title: '<strong>Login Error!</strong>',
-                        message: 'Please login to post ads.',
+                        message: 'Please login to post ads.'
 
                     },{
                         type: 'danger',
@@ -189,7 +189,7 @@ $( "#postForm" ).submit(function( event ) {
                 if($.inArray(2, data.error_code) != -1){
                     $.notify({
                         title: '<strong>Invalid data.</strong>',
-                        message: 'Please fill all mandatory fields.',
+                        message: 'Please fill all mandatory fields.'
 
                     },{
                         type: 'danger',
@@ -204,7 +204,7 @@ $( "#postForm" ).submit(function( event ) {
                 if($.inArray(3, data.error_code) != -1){
                     $.notify({
                         title: '<strong>Error adding advert.</strong>',
-                        message: 'Please try again later.',
+                        message: 'Please try again later.'
 
                     },{
                         type: 'danger',

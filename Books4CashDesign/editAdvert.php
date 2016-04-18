@@ -87,7 +87,7 @@ include("includes/sidebar.php");
                     <input type="file" name="image" id="image" multiple accept="image/x-png, image/jpeg, image/jpg" />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="tagSpace">
                     <label for="tag0">Tag 1*:</label>
                     <input class="form-control" type="text" id="tag0" maxlength="50" name="tag0">
                 </div>
