@@ -74,7 +74,7 @@ else
                             echo "</thead>"; 
                             echo "<tbody>";
                         foreach($result as $item){
-                           echo"<tr>";
+                           echo"<tr id='book".$item->advert_id."'>";
                             echo"<td>" . $item->advert_id . "</td>";
                             echo "<td>" . $item->advert_bookname . "</td>";
                             echo "<td>" . $item->advert_price . "</td>";
