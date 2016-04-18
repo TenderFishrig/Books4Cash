@@ -10,7 +10,7 @@ session_start();
 require 'DBCommunication.php';
 
 $response_array=array('success' => false,'error_code'=>array(),'message' => '');
-if(!empty($_SESSION['username']))
+if(empty($_SESSION['username']))
 {
     array_push($response_array['error_code'], 1);
 }
